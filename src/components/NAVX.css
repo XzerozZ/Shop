@@ -1,0 +1,56 @@
+*{
+  margin-left: 10px;
+  margin-right:10px;
+}
+.title{
+    font-family: 'Anonymous Pro', sans-serif;
+    color:#ffff;
+  }
+  .navbar {
+    background: #212121;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+  }
+.search-box{
+    justify-content: center;
+}
+.search{
+    width: 800px;
+    margin : 20px ;
+    padding: 12px 24px;
+    background-color: transparent;
+    transition: transform 250ms ease-in-out;
+    font-size: 14px;
+    line-height: 18px;
+    background-image: url(http://mihaeltomic.com/codepen/input-search/ic_search_black_24px.svg);
+    color: #ffff;
+    background-color: transparent;
+    border-radius: 50px;
+    border: 1px solid #575756;
+    transition: all 250ms ease-in-out;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+}
+.search::placeholder{
+    color: color(#ffff a(0.8));
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+.search:hover,.search:focus{
+    padding: 12px 0;
+    outline: 0;
+    border: 1px solid transparent;
+    border-bottom: 1px solid #575756;
+    border-radius: 0;
+    background-position: 100% center;
+}
+.icon-container {
+    position: absolute;
+    left: 1220px;
+  }
+.icon-container:hover,.cart:hover{
+  color: rgb(249 250 251);
+}
