@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import LoginPopup from './LoginPopup';
+import LoginPopup from './LoginPopup.jsx';
 import logo from "../assets/logo.png";
 import './NAVX.css';
 
-function Navbar() {
-  const closeMobileMenu = () => setClick(false);
+function NAVX() {
+  
 
   return (
     <>
       <nav className='navbar'>
-        <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
+        <Link to='/' className='navbar-logo'>
           <div className='logo'>
             <img className="w-[100px] h-[50]" src={logo} alt="" />
           </div>
@@ -34,4 +34,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default NAVX;

@@ -4,8 +4,10 @@ import { Link } from 'react-router-dom';
 
 export function Button() {
   return (
-    <Link to='sign-up'>
-      <button className='btn'>Sign Up</button>
-    </Link>
+    <button class="cybr-btn">
+      BUY <span aria-hidden> NOW</span>
+      <span aria-hidden class="cybr-btn__glitch">BUY NOW</span>
+      <span aria-hidden class="cybr-btn__tag">R34</span>
+    </button>
   );
 }

@@ -1,13 +1,15 @@
 *{
-  margin-left: 10px;
-  margin-right:10px;
+  z-index: 10;
 }
 .title{
     font-family: 'Anonymous Pro', sans-serif;
     color:#ffff;
   }
   .navbar {
-    background: #212121;
+    background-color: rgba(0,0,0,0.0);
+    margin-left:10px;
+    margin-right:10px;
+    gap :20px;
     height: 80px;
     display: flex;
     justify-content: center;
@@ -25,7 +27,6 @@
     transition: transform 250ms ease-in-out;
     font-size: 14px;
     line-height: 18px;
-    background-image: url(http://mihaeltomic.com/codepen/input-search/ic_search_black_24px.svg);
     color: #ffff;
     background-color: transparent;
     border-radius: 50px;
@@ -49,8 +50,11 @@
 }
 .icon-container {
     position: absolute;
-    left: 1220px;
+    left: 1170px;
   }
 .icon-container:hover,.cart:hover{
   color: rgb(249 250 251);
+}
+.user-set{
+  gap: 20px;
 }

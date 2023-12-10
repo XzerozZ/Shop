@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 
 import { LoginPages } from './pages/login'
@@ -10,13 +9,14 @@ import { ContactPages } from './pages/contact'
 import { VideogamePages } from './pages/videogame'
 import { CartPages } from './pages/cart'
 import { Route, Routes } from 'react-router-dom'
-import { BrowserRouter } from 'react-router-dom'
+
 
 
 function App() {
   
   return (
     <>
+    
    <Routes>
       <Route path="/" element={<MarketPages />} />
       <Route path="/login" element={<LoginPages />} />
