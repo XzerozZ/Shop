@@ -1,20 +1,11 @@
 import React, { useState } from 'react';
-import logo from "../assets/logo.png";
 import { Link } from 'react-router-dom';
-import Modal from './Modal.jsx';
+import LoginPopup from './LoginPopup';
+import logo from "../assets/logo.png";
 import './NAVX.css';
 
-function NAVX() {
+function Navbar() {
   const closeMobileMenu = () => setClick(false);
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const openModal = () => {
-    setModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
-  };
 
   return (
     <>
@@ -37,13 +28,10 @@ function NAVX() {
           </Link>
           <i className="fa-regular fa-circle-user"></i>
         </div>
-        <div className='sign-up'>
-          <button onClick={openModal}>Sign In</button>
-          {modalOpen && <Modal closeModal={closeModal} />} 
-        </div>
+          <LoginPopup />
       </nav>
     </>
   );
 }
 
-export default NAVX;
+export default Navbar;
