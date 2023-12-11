@@ -1,6 +1,6 @@
 import co_founder1 from "../assets/co-founder1.jpg";
 import React from 'react'
-import Nav2 from "../components/Navbar";
+import Nav2 from "../components/NAVX";
 import './contact.css'
 
 export const ContactPages = () => {

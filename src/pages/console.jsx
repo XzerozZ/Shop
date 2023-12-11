@@ -1,5 +1,5 @@
 import React from 'react'
-import Nav2 from "../components/Navbar";
+import Nav2 from "../components/NAVX";
 
 export const ConsolePages = () => {
   return (

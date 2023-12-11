@@ -1,10 +1,10 @@
 import React from 'react'
-import Nav2 from "../components/Navbar";
+import NAVX from "../components/NAVX";
 
 export const VideogamePages = () => {
   return (
   <>
-  <Nav2/>
+  <NAVX/>
   </>
   )
 }

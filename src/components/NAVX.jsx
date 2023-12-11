@@ -24,7 +24,7 @@ function NAVX() {
         </div>
         <div className='user-set'>
           <Link to='/cart'  className='cart'>
-            <i className="fa-solid fa-cart-shopping"></i>
+            <i className="w-20 fa-solid fa-cart-shopping"></i>
           </Link>
           <i className="fa-regular fa-circle-user"></i>
         </div>
