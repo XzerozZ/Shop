@@ -10,7 +10,7 @@ import { FaXTwitter } from "react-icons/fa6";
 export const Footer = () => {
   return (
     <>
-    <footer className="footer footer-center p-10 bg-base-200 text-base-content rounded">
+    <footer className="footer footer-center p-10 bg-[black] text-base-content rounded">
   <div className="flex-auto join gap-10">
     <Link className="link link-hover join-item">About us</Link> 
     <Link className="link link-hover join-item">Contact</Link> 

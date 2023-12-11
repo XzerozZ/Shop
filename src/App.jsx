@@ -9,7 +9,7 @@ import { ContactPages } from './pages/contact'
 import { VideogamePages } from './pages/videogame'
 import { CartPages } from './pages/cart'
 import { Route, Routes } from 'react-router-dom'
-
+import { UserSetting } from './pages/UserSetting'
 
 
 function App() {
@@ -25,6 +25,7 @@ function App() {
       <Route path="/about" element={<AboutPages />}/>
       <Route path="/contact" element={<ContactPages />}/>
       <Route path="/cart" element={<CartPages />}/>
+      <Route path='/user' element={<UserSetting />} />
    </Routes>
     </>
   )
