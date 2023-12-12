@@ -1,0 +1,16 @@
+.Suggest{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.Ad2 {
+    justify-content: left;
+    position: relative;
+    align-items: left;
+    height: auto;
+    width: 100%;
+    
+}
+.Recommend{
+    width: 800px;
+    height: 450px;
+}
