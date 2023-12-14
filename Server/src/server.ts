@@ -4,6 +4,7 @@ import { login } from "./authen/login";
 const app = express();
 const { MongoClient } = require("mongodb");
 const cors = require("cors");
+const multer = require("multer");
 const mongoURL = "mongodb+srv://Valhir:Dino2064!@cluster0.vts6job.mongodb.net/"
 export const client = new MongoClient(mongoURL);
 app.use(cors());
@@ -17,6 +18,11 @@ export const Database = async () =>{
         process.exit(1);
     }
 }
+const multerStore = multer({
+    storage: multer.memoryStorage(),
+  });
+  
+  app.use(multerStore.array("file"));
 app.post("/api/signup", signup);
 app.post("/api/login", login );
 
