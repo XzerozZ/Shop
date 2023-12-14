@@ -6,7 +6,7 @@ export const login = async (req: Request, res: Response) => {
     try {
         await Database();
         const {email , password} = req.body
-        const findEmail = await client.db('user').collection('user').findOne({ email: email });
+        const findEmail = await client.db('Webpro').collection('user').findOne({ email: email });
         if (!findEmail) {
             res.status(400).json({ message: 'email not found' });
             return false;

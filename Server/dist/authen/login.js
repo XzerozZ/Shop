@@ -16,7 +16,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, server_1.Database)();
         const { email, password } = req.body;
-        const findEmail = yield server_1.client.db('user').collection('user').findOne({ email: email });
+        const findEmail = yield server_1.client.db('Webpro').collection('user').findOne({ email: email });
         if (!findEmail) {
             res.status(400).json({ message: 'email not found' });
             return false;

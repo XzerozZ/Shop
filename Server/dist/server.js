@@ -16,9 +16,13 @@ exports.Database = exports.client = void 0;
 const express_1 = __importDefault(require("express"));
 const signup_1 = require("./authen/signup");
 const login_1 = require("./authen/login");
+const Developer_1 = require("./admin/Developer");
+const Publisher_1 = require("./admin/Publisher");
+const Releasebook_1 = require("./admin/Releasebook");
 const app = (0, express_1.default)();
 const { MongoClient } = require("mongodb");
 const cors = require("cors");
+const multer = require("multer");
 const mongoURL = "mongodb+srv://Valhir:Dino2064!@cluster0.vts6job.mongodb.net/";
 exports.client = new MongoClient(mongoURL);
 app.use(cors());
@@ -34,8 +38,15 @@ const Database = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.Database = Database;
+const multerStore = multer({
+    storage: multer.memoryStorage(),
+});
+app.use(multerStore.array("file"));
 app.post("/api/signup", signup_1.signup);
 app.post("/api/login", login_1.login);
+app.post("/api/dev", Developer_1.Adddev);
+app.post("/api/publisher", Publisher_1.AddPublisher);
+app.post("/api/postbook", Releasebook_1.postbook);
 const PORT = parseInt((process.env.PORT || '4000'), 10);
 app.listen(PORT, () => {
     console.log(`server started at http://localhost:${PORT}`);

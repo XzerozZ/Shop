@@ -21,7 +21,7 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             email,
             password: yield (0, hash_1.hashPassword)(password)
         };
-        yield server_1.client.db('user').collection('user').insertOne(data);
+        yield server_1.client.db('Webpro').collection('user').insertOne(data);
         res.status(200).send({ data });
         yield server_1.client.close();
     }

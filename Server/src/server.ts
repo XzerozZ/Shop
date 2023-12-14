@@ -1,6 +1,9 @@
 import express from "express";
 import { signup } from "./authen/signup";
 import { login } from "./authen/login";
+import { Adddev } from "./admin/Developer";
+import { AddPublisher } from "./admin/Publisher";
+import { postbook } from "./admin/Releasebook";
 const app = express();
 const { MongoClient } = require("mongodb");
 const cors = require("cors");
@@ -22,9 +25,12 @@ const multerStore = multer({
     storage: multer.memoryStorage(),
   });
   
-  app.use(multerStore.array("file"));
+app.use(multerStore.array("file"));
 app.post("/api/signup", signup);
 app.post("/api/login", login );
+app.post("/api/dev", Adddev);
+app.post("/api/publisher", AddPublisher);
+app.post("/api/postbook", postbook);
 
 const PORT: number = parseInt((process.env.PORT || '4000') as string, 10)
 

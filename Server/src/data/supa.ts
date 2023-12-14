@@ -8,12 +8,12 @@ export const supabase: any = createClient(supabaseUrl, supabaseKey);
 export const upLoadeIMG = async (file: any) => {
   const fileName = "images/" + uuid() + ".jpg"  ;
   const { error } = await supabase.storage
-    .from("BIZ-Shop")
+    .from("BIZWEB")
     .upload(fileName, file, { cacheControl: "image/jpg"});
   if (error) {
     throw error;
   }
-  const { data } = await supabase.storage.from("BIZ-Shop").getPublicUrl(fileName);
+  const { data } = await supabase.storage.from("BIZWEB").getPublicUrl(fileName);
   return data.publicUrl;
 };
 
@@ -21,23 +21,23 @@ export const upLoadeIMG = async (file: any) => {
 export const upLoadePDF = async (file: any) => {
   const fileName = "pdf/" + uuid() + ".pdf"  ;
   const { error } = await supabase.storage
-    .from("BIZ-Shop")
+    .from("BIZWEB")
     .upload(fileName, file, { cacheControl: "application/pdf"});
   if (error) {
     throw error;
   }
-  const { data } = await supabase.storage.from("BIZ-Shop").getPublicUrl(fileName);
+  const { data } = await supabase.storage.from("BIZWEB").getPublicUrl(fileName);
   return data.publicUrl;
 };
 
 export const upLoadeVideo = async (file: any) => {
     const fileName = "mp4/" + uuid() + ".mp4"  ;
     const { error } = await supabase.storage
-      .from("BIZ-Shop")
+      .from("BIZWEB")
       .upload(fileName, file, { cacheControl: "video/mp4"});
     if (error) {
       throw error;
     }
-    const { data } = await supabase.storage.from("BIZ-Shop").getPublicUrl(fileName);
+    const { data } = await supabase.storage.from("BIZWEB").getPublicUrl(fileName);
     return data.publicUrl;
   };

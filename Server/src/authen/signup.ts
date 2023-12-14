@@ -11,7 +11,7 @@ export const signup = async (req: Request, res: Response) => {
             email ,
             password : await hashPassword(password)
         }
-        await client.db('user').collection('user').insertOne(data)
+        await client.db('Webpro').collection('user').insertOne(data)
         res.status(200).send({data});
         await client.close();
     } catch (error) {
