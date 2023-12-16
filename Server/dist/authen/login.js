@@ -8,9 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.changePassword = exports.login = void 0;
 const server_1 = require("../server");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const hash_1 = require("../hash");
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -26,7 +30,9 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             res.status(400).json({ message: 'password not match' });
             return false;
         }
-        res.cookie('user', JSON.stringify(findEmail), { maxAge: 86400e3, httpOnly: true });
+        const payload = { id: findEmail._id, role: findEmail.role };
+        const token = jsonwebtoken_1.default.sign(payload, server_1.secret, { expiresIn: '1h' });
+        res.cookie('token', token, { httpOnly: true });
         res.status(200).json({ message: 'login success', result: findEmail });
     }
     catch (error) {

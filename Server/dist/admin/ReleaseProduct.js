@@ -30,7 +30,7 @@ const postgame = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 return url;
             }
         })));
-        const { name, dev, price, description, publisher, category } = req.body;
+        const { name, dev, price, description, publisher, category, facebook, instagram, X, youtube } = req.body;
         yield server_1.client.connect();
         let developer = yield server_1.client
             .db("Webpro")
@@ -42,7 +42,7 @@ const postgame = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             const devResult = yield server_1.client
                 .db("Webpro")
                 .collection("dev")
-                .insertOne({ name: dev });
+                .insertOne({ name: dev, facebook: facebook, instagram: instagram, X: X, youtube: youtube });
             developerId = devResult.insertedId;
         }
         else {

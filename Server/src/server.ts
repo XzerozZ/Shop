@@ -3,6 +3,7 @@ import { signup } from "./authen/signup";
 import { login,changePassword } from "./authen/login";
 import { AddtoCart } from "./Product/Cart";
 import { postgame,deletegameByID,UpdateGame} from "./admin/ReleaseProduct";
+import { checkToken } from "./authen/tokenchecker";
 import bodyparser from "body-parser";
 import cookieParser from "cookie-parser";
 const app = express();
@@ -30,6 +31,7 @@ const multerStore = multer({
   });
   
 app.use(multerStore.array("file"));
+app.get("/api/checktoken", checkToken);
 app.post("/api/signup", signup);
 app.post("/api/login", login );
 app.post("/api/postgame", postgame);

@@ -12,12 +12,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Database = exports.client = void 0;
+exports.secret = exports.Database = exports.client = void 0;
 const express_1 = __importDefault(require("express"));
 const signup_1 = require("./authen/signup");
 const login_1 = require("./authen/login");
 const Cart_1 = require("./Product/Cart");
 const ReleaseProduct_1 = require("./admin/ReleaseProduct");
+const tokenchecker_1 = require("./authen/tokenchecker");
+const body_parser_1 = __importDefault(require("body-parser"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const app = (0, express_1.default)();
 const { MongoClient } = require("mongodb");
 const cors = require("cors");
@@ -25,6 +28,8 @@ const multer = require("multer");
 const mongoURL = "mongodb+srv://Valhir:Dino2064!@cluster0.vts6job.mongodb.net/";
 exports.client = new MongoClient(mongoURL);
 app.use(cors());
+app.use(body_parser_1.default.json());
+app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.json());
 const Database = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -37,10 +42,12 @@ const Database = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.Database = Database;
+exports.secret = "AV1234";
 const multerStore = multer({
     storage: multer.memoryStorage(),
 });
 app.use(multerStore.array("file"));
+app.get("/api/checktoken", tokenchecker_1.checkToken);
 app.post("/api/signup", signup_1.signup);
 app.post("/api/login", login_1.login);
 app.post("/api/postgame", ReleaseProduct_1.postgame);

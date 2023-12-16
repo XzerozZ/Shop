@@ -22,7 +22,7 @@ export const postgame = async (req: Request, res: Response) => {
       })
     );
 
-    const { name, dev, price, description , publisher ,category  } = req.body;
+    const { name, dev, price, description , publisher ,category , facebook , instagram, X, youtube } = req.body;
     await client.connect();
     let developer = await client
     .db("Webpro")
@@ -36,7 +36,7 @@ export const postgame = async (req: Request, res: Response) => {
     const devResult = await client
       .db("Webpro")
       .collection("dev")
-      .insertOne({ name: dev });
+      .insertOne({ name: dev , facebook: facebook , instagram: instagram , X : X, youtube: youtube});
 
     developerId = devResult.insertedId;
   } else {
