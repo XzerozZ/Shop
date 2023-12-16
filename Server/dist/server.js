@@ -50,6 +50,7 @@ app.post("/api/publisher", Publisher_1.AddPublisher);
 app.post("/api/postbook", Releasebook_1.postbook);
 app.post("/api/addtocart", Cart_1.AddtoCart);
 app.delete("/api/delete", Releasebook_1.deleteBookByID);
+app.put("/api/changepassword", login_1.changePassword);
 const PORT = parseInt((process.env.PORT || '4000'), 10);
 app.listen(PORT, () => {
     console.log(`server started at http://localhost:${PORT}`);

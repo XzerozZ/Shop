@@ -1,6 +1,6 @@
 import express from "express";
 import { signup } from "./authen/signup";
-import { login } from "./authen/login";
+import { login,changePassword } from "./authen/login";
 import { Adddev } from "./admin/Developer";
 import { AddPublisher } from "./admin/Publisher";
 import { AddtoCart } from "./Product/Cart";
@@ -34,6 +34,7 @@ app.post("/api/publisher", AddPublisher);
 app.post("/api/postbook", postbook);
 app.post("/api/addtocart", AddtoCart);
 app.delete("/api/delete", deleteBookByID);
+app.put("/api/changepassword", changePassword);
 
 const PORT: number = parseInt((process.env.PORT || '4000') as string, 10)
 

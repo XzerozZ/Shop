@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = void 0;
+exports.changePassword = exports.login = void 0;
 const server_1 = require("../server");
 const hash_1 = require("../hash");
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -34,3 +34,27 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.login = login;
+const changePassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        (0, server_1.Database)();
+        const { email, newPassword } = req.body;
+        const findEmail = yield server_1.client.db('Webpro').collection('user').findOne({ email: email });
+        if (!findEmail) {
+            res.send("No User found");
+            return;
+        }
+        const MatchPassword = yield (0, hash_1.matchPassword)(newPassword, findEmail.password);
+        if (MatchPassword) {
+            res.send("Password is the same");
+            return;
+        }
+        const hash = yield (0, hash_1.hashPassword)(newPassword);
+        yield server_1.client.db('Webpro').collection('user').updateOne({ email }, { $set: { password: hash } });
+        res.status(200).send("Change Password Success");
+    }
+    catch (error) {
+        console.error("Error during password change", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+exports.changePassword = changePassword;
