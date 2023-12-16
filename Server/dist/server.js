@@ -19,6 +19,7 @@ const login_1 = require("./authen/login");
 const Cart_1 = require("./Product/Cart");
 const ReleaseProduct_1 = require("./admin/ReleaseProduct");
 const tokenchecker_1 = require("./authen/tokenchecker");
+const Fetchgame_1 = require("./Product/Fetchgame");
 const body_parser_1 = __importDefault(require("body-parser"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const app = (0, express_1.default)();
@@ -27,7 +28,9 @@ const cors = require("cors");
 const multer = require("multer");
 const mongoURL = "mongodb+srv://Valhir:Dino2064!@cluster0.vts6job.mongodb.net/";
 exports.client = new MongoClient(mongoURL);
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:5173"
+}));
 app.use(body_parser_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.json());
@@ -55,6 +58,7 @@ app.post("/api/addtocart", Cart_1.AddtoCart);
 app.delete("/api/delete/:id", ReleaseProduct_1.deletegameByID);
 app.put("/api/changepassword", login_1.changePassword);
 app.put("/api/updategame/:id", ReleaseProduct_1.UpdateGame);
+app.get("/api/fetchgame", Fetchgame_1.Fetchgame);
 const PORT = parseInt((process.env.PORT || '4000'), 10);
 app.listen(PORT, () => {
     console.log(`server started at http://localhost:${PORT}`);
