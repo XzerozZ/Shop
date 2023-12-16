@@ -32,12 +32,12 @@ export const changePassword = async (req: Request, res: Response) => {
     const findEmail = await client.db('Webpro').collection('user').findOne({ email: email });
     if (!findEmail) {
       res.send("No User found");
-      return;
+      return false;
     }
     const MatchPassword = await matchPassword(newPassword, findEmail.password);
     if (MatchPassword) {
       res.send("Password is the same");
-      return;
+      return false;
     }
     const hash = await hashPassword(newPassword);
     await client.db('Webpro').collection('user').updateOne({ email }, { $set: { password: hash } });

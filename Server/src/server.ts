@@ -2,7 +2,7 @@ import express from "express";
 import { signup } from "./authen/signup";
 import { login,changePassword } from "./authen/login";
 import { AddtoCart } from "./Product/Cart";
-import { postgame,deletegameByID,UpdateGame} from "./admin/Releasebook";
+import { postgame,deletegameByID,UpdateGame} from "./admin/ReleaseProduct";
 const app = express();
 const { MongoClient } = require("mongodb");
 const cors = require("cors");

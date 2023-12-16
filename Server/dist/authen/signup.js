@@ -16,14 +16,22 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, server_1.Database)();
         const { username, email, password } = req.body;
-        const user = {
-            username,
-            email,
-            password: yield (0, hash_1.hashPassword)(password)
-        };
-        yield server_1.client.db('Webpro').collection('user').insertOne(user);
-        res.status(200).send({ user });
-        yield server_1.client.close();
+        let mail = yield server_1.client
+            .db("Webpro")
+            .collection("user")
+            .findOne({ email: email });
+        if (!mail) {
+            const user = {
+                username,
+                email,
+                password: yield (0, hash_1.hashPassword)(password)
+            };
+            yield server_1.client.db('Webpro').collection('user').insertOne(user);
+            res.status(200).send({ user });
+            yield server_1.client.close();
+        }
+        console.log("already have user");
+        res.status(400).send({ message: "already have user" });
     }
     catch (error) {
         console.log(error);

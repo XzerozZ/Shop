@@ -17,7 +17,7 @@ const express_1 = __importDefault(require("express"));
 const signup_1 = require("./authen/signup");
 const login_1 = require("./authen/login");
 const Cart_1 = require("./Product/Cart");
-const Releasebook_1 = require("./admin/Releasebook");
+const ReleaseProduct_1 = require("./admin/ReleaseProduct");
 const app = (0, express_1.default)();
 const { MongoClient } = require("mongodb");
 const cors = require("cors");
@@ -43,11 +43,11 @@ const multerStore = multer({
 app.use(multerStore.array("file"));
 app.post("/api/signup", signup_1.signup);
 app.post("/api/login", login_1.login);
-app.post("/api/postgame", Releasebook_1.postgame);
+app.post("/api/postgame", ReleaseProduct_1.postgame);
 app.post("/api/addtocart", Cart_1.AddtoCart);
-app.delete("/api/delete/:id", Releasebook_1.deletegameByID);
+app.delete("/api/delete/:id", ReleaseProduct_1.deletegameByID);
 app.put("/api/changepassword", login_1.changePassword);
-app.put("/api/updategame/:id", Releasebook_1.UpdateGame);
+app.put("/api/updategame/:id", ReleaseProduct_1.UpdateGame);
 const PORT = parseInt((process.env.PORT || '4000'), 10);
 app.listen(PORT, () => {
     console.log(`server started at http://localhost:${PORT}`);

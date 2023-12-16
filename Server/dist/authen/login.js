@@ -42,12 +42,12 @@ const changePassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
         const findEmail = yield server_1.client.db('Webpro').collection('user').findOne({ email: email });
         if (!findEmail) {
             res.send("No User found");
-            return;
+            return false;
         }
         const MatchPassword = yield (0, hash_1.matchPassword)(newPassword, findEmail.password);
         if (MatchPassword) {
             res.send("Password is the same");
-            return;
+            return false;
         }
         const hash = yield (0, hash_1.hashPassword)(newPassword);
         yield server_1.client.db('Webpro').collection('user').updateOne({ email }, { $set: { password: hash } });
