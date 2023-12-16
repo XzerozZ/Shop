@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteBookByID = exports.postbook = void 0;
+exports.updateBookByID = exports.deleteBookByID = exports.postbook = void 0;
 const supa_1 = require("../data/supa");
 const server_1 = require("../server");
 const mongodb_1 = require("mongodb");
@@ -30,16 +30,16 @@ const postbook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 return url;
             }
         })));
-        const { title, dev, price, description, publisher, category } = req.body;
+        const { name, dev, price, description, publisher, category } = req.body;
         yield server_1.client.connect();
         const data = {
-            title,
+            name,
             developer: new mongodb_1.ObjectId(dev),
             publisher: new mongodb_1.ObjectId(publisher),
             category: new mongodb_1.ObjectId(category),
             price,
             description,
-            image: url.slice(0, 4),
+            image: url.slice(0, 5),
             video: url[5],
             date: new Date()
         };
@@ -55,6 +55,7 @@ const postbook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.postbook = postbook;
+// Delete books
 const deleteBookByID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, server_1.Database)();
@@ -68,3 +69,18 @@ const deleteBookByID = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.deleteBookByID = deleteBookByID;
+// Update books
+const updateBookByID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield (0, server_1.Database)();
+        const { id } = req.params;
+        const data = req.body;
+        const result = yield server_1.client.db("Webpro").collection("product").updateOne({ _id: new mongodb_1.ObjectId(id) }, { $set: data });
+        res.status(200).send(result);
+    }
+    catch (error) {
+        console.log(error);
+        res.send(error);
+    }
+});
+exports.updateBookByID = updateBookByID;

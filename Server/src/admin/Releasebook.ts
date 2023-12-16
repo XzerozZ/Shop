@@ -22,17 +22,17 @@ export const postbook = async (req: Request, res: Response) => {
       })
     );
 
-    const { title, dev, price, description , publisher ,category  } = req.body;
+    const { name, dev, price, description , publisher ,category  } = req.body;
     await client.connect();
     
     const data = {
-      title,
+      name,
       developer : new ObjectId(dev),
       publisher : new ObjectId(publisher) ,
       category : new ObjectId(category),
       price,
       description,
-      image : url.slice(0,4),
+      image : url.slice(0,5),
       video : url[5],
       date : new Date()
     };
@@ -46,12 +46,27 @@ export const postbook = async (req: Request, res: Response) => {
     console.log(error);
   }
 };
-
+// Delete books
 export const deleteBookByID = async (req: Request, res: Response) => {
     try {
         await Database();
         const {id} = req.params;
         const result = await client.db("Webpro").collection("product").deleteOne({ _id: new ObjectId(id) });
+        res.status(200).send(result);
+    } catch (error) {
+        console.log(error);
+        res.send(error);
+    }
+};
+
+// Update books
+
+export const updateBookByID = async (req: Request, res: Response) => {
+    try {
+        await Database();
+        const {id} = req.params;
+        const data = req.body;
+        const result = await client.db("Webpro").collection("product").updateOne({ _id: new ObjectId(id) }, { $set: data });
         res.status(200).send(result);
     } catch (error) {
         console.log(error);

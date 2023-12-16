@@ -18,6 +18,7 @@ const signup_1 = require("./authen/signup");
 const login_1 = require("./authen/login");
 const Developer_1 = require("./admin/Developer");
 const Publisher_1 = require("./admin/Publisher");
+const Cart_1 = require("./Product/Cart");
 const Releasebook_1 = require("./admin/Releasebook");
 const app = (0, express_1.default)();
 const { MongoClient } = require("mongodb");
@@ -47,6 +48,8 @@ app.post("/api/login", login_1.login);
 app.post("/api/dev", Developer_1.Adddev);
 app.post("/api/publisher", Publisher_1.AddPublisher);
 app.post("/api/postbook", Releasebook_1.postbook);
+app.post("/api/addtocart", Cart_1.AddtoCart);
+app.delete("/api/delete", Releasebook_1.deleteBookByID);
 const PORT = parseInt((process.env.PORT || '4000'), 10);
 app.listen(PORT, () => {
     console.log(`server started at http://localhost:${PORT}`);

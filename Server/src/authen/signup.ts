@@ -6,13 +6,13 @@ export const signup = async (req: Request, res: Response) => {
     try {
         await Database();
         const {username , email , password} = req.body
-        const data = {
+        const user = {
             username ,
             email ,
             password : await hashPassword(password)
         }
-        await client.db('Webpro').collection('user').insertOne(data)
-        res.status(200).send({data});
+        await client.db('Webpro').collection('user').insertOne(user)
+        res.status(200).send({user});
         await client.close();
     } catch (error) {
         console.log(error);

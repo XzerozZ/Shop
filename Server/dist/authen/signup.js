@@ -16,13 +16,13 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, server_1.Database)();
         const { username, email, password } = req.body;
-        const data = {
+        const user = {
             username,
             email,
             password: yield (0, hash_1.hashPassword)(password)
         };
-        yield server_1.client.db('Webpro').collection('user').insertOne(data);
-        res.status(200).send({ data });
+        yield server_1.client.db('Webpro').collection('user').insertOne(user);
+        res.status(200).send({ user });
         yield server_1.client.close();
     }
     catch (error) {

@@ -3,7 +3,8 @@ import { signup } from "./authen/signup";
 import { login } from "./authen/login";
 import { Adddev } from "./admin/Developer";
 import { AddPublisher } from "./admin/Publisher";
-import { postbook } from "./admin/Releasebook";
+import { AddtoCart } from "./Product/Cart";
+import { postbook,deleteBookByID,updateBookByID} from "./admin/Releasebook";
 const app = express();
 const { MongoClient } = require("mongodb");
 const cors = require("cors");
@@ -31,6 +32,8 @@ app.post("/api/login", login );
 app.post("/api/dev", Adddev);
 app.post("/api/publisher", AddPublisher);
 app.post("/api/postbook", postbook);
+app.post("/api/addtocart", AddtoCart);
+app.delete("/api/delete", deleteBookByID);
 
 const PORT: number = parseInt((process.env.PORT || '4000') as string, 10)
 
