@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AddtoCart = void 0;
+exports.DeleteCart = exports.AddtoCart = void 0;
 const server_1 = require("../server");
 const mongodb_1 = require("mongodb");
 const AddtoCart = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -17,8 +17,8 @@ const AddtoCart = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         yield (0, server_1.Database)();
         const { userID, productID } = req.query;
         const data = {
-            userID: new mongodb_1.ObjectId(String(userID)),
-            productID: new mongodb_1.ObjectId(String(productID)),
+            userID: new mongodb_1.ObjectId(Number(userID)),
+            productID: new mongodb_1.ObjectId(Number(productID)),
         };
         const result = yield server_1.client
             .db("Webpro")
@@ -32,3 +32,24 @@ const AddtoCart = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.AddtoCart = AddtoCart;
+const DeleteCart = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield (0, server_1.Database)();
+        const { id } = req.query;
+        const deleteCart = yield server_1.client
+            .db("Webpro")
+            .collection("Cart")
+            .deleteOne({ _id: new mongodb_1.ObjectId(id) });
+        if (deleteCart.deletedCount === 1) {
+            res.status(200).send({ message: "Deleted from cart", deleteCart });
+        }
+        else {
+            res.status(404).send({ error: "Item not found in cart" });
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).send({ error: "Internal server error" });
+    }
+});
+exports.DeleteCart = DeleteCart;

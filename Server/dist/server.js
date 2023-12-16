@@ -59,6 +59,7 @@ app.delete("/api/delete/:id", ReleaseProduct_1.deletegameByID);
 app.put("/api/changepassword", login_1.changePassword);
 app.put("/api/updategame/:id", ReleaseProduct_1.UpdateGame);
 app.get("/api/fetchgame", Fetchgame_1.Fetchgame);
+app.delete("/api/deletecart", Cart_1.DeleteCart);
 const PORT = parseInt((process.env.PORT || '4000'), 10);
 app.listen(PORT, () => {
     console.log(`server started at http://localhost:${PORT}`);
