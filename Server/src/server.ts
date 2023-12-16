@@ -1,8 +1,6 @@
 import express from "express";
 import { signup } from "./authen/signup";
 import { login,changePassword } from "./authen/login";
-import { Adddev } from "./admin/Developer";
-import { AddPublisher } from "./admin/Publisher";
 import { AddtoCart } from "./Product/Cart";
 import { postgame,deletegameByID,UpdateGame} from "./admin/Releasebook";
 const app = express();
@@ -29,8 +27,6 @@ const multerStore = multer({
 app.use(multerStore.array("file"));
 app.post("/api/signup", signup);
 app.post("/api/login", login );
-app.post("/api/dev", Adddev);
-app.post("/api/publisher", AddPublisher);
 app.post("/api/postgame", postgame);
 app.post("/api/addtocart", AddtoCart);
 app.delete("/api/delete/:id", deletegameByID);

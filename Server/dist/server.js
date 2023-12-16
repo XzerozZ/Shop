@@ -16,8 +16,6 @@ exports.Database = exports.client = void 0;
 const express_1 = __importDefault(require("express"));
 const signup_1 = require("./authen/signup");
 const login_1 = require("./authen/login");
-const Developer_1 = require("./admin/Developer");
-const Publisher_1 = require("./admin/Publisher");
 const Cart_1 = require("./Product/Cart");
 const Releasebook_1 = require("./admin/Releasebook");
 const app = (0, express_1.default)();
@@ -45,8 +43,6 @@ const multerStore = multer({
 app.use(multerStore.array("file"));
 app.post("/api/signup", signup_1.signup);
 app.post("/api/login", login_1.login);
-app.post("/api/dev", Developer_1.Adddev);
-app.post("/api/publisher", Publisher_1.AddPublisher);
 app.post("/api/postgame", Releasebook_1.postgame);
 app.post("/api/addtocart", Cart_1.AddtoCart);
 app.delete("/api/delete/:id", Releasebook_1.deletegameByID);
