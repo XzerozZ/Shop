@@ -26,6 +26,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             res.status(400).json({ message: 'password not match' });
             return false;
         }
+        res.cookie('user', JSON.stringify(findEmail), { maxAge: 86400e3, httpOnly: true });
         res.status(200).json({ message: 'login success', result: findEmail });
     }
     catch (error) {

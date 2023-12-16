@@ -47,10 +47,11 @@ app.post("/api/signup", signup_1.signup);
 app.post("/api/login", login_1.login);
 app.post("/api/dev", Developer_1.Adddev);
 app.post("/api/publisher", Publisher_1.AddPublisher);
-app.post("/api/postbook", Releasebook_1.postbook);
+app.post("/api/postgame", Releasebook_1.postgame);
 app.post("/api/addtocart", Cart_1.AddtoCart);
-app.delete("/api/delete", Releasebook_1.deleteBookByID);
+app.delete("/api/delete/:id", Releasebook_1.deletegameByID);
 app.put("/api/changepassword", login_1.changePassword);
+app.put("/api/updategame/:id", Releasebook_1.UpdateGame);
 const PORT = parseInt((process.env.PORT || '4000'), 10);
 app.listen(PORT, () => {
     console.log(`server started at http://localhost:${PORT}`);

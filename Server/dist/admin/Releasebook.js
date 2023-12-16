@@ -9,11 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateBookByID = exports.deleteBookByID = exports.postbook = void 0;
+exports.UpdateGame = exports.deletegameByID = exports.postgame = void 0;
 const supa_1 = require("../data/supa");
 const server_1 = require("../server");
 const mongodb_1 = require("mongodb");
-const postbook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const postgame = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const dataFile = req.files;
         const url = yield Promise.all(dataFile.map((file) => __awaiter(void 0, void 0, void 0, function* () {
@@ -32,12 +32,62 @@ const postbook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         })));
         const { name, dev, price, description, publisher, category } = req.body;
         yield server_1.client.connect();
+        let developer = yield server_1.client
+            .db("Webpro")
+            .collection("dev")
+            .findOne({ name: dev });
+        let developerId;
+        if (!developer) {
+            // If developer doesn't exist, insert a new record
+            const devResult = yield server_1.client
+                .db("Webpro")
+                .collection("dev")
+                .insertOne({ name: dev });
+            developerId = devResult.insertedId;
+        }
+        else {
+            developerId = developer._id;
+        }
+        // Check if publisher exists
+        let pub = yield server_1.client
+            .db("Webpro")
+            .collection("publisher")
+            .findOne({ name: publisher });
+        let publisherId;
+        if (!pub) {
+            // If publisher doesn't exist, insert a new record
+            const pubResult = yield server_1.client
+                .db("Webpro")
+                .collection("publisher")
+                .insertOne({ name: publisher });
+            publisherId = pubResult.insertedId;
+        }
+        else {
+            publisherId = pub._id;
+        }
+        // Check if category exists
+        let cat = yield server_1.client
+            .db("Webpro")
+            .collection("categories")
+            .findOne({ name: category });
+        let categoryId;
+        if (!cat) {
+            // If category doesn't exist, insert a new record
+            const catResult = yield server_1.client
+                .db("Webpro")
+                .collection("categories")
+                .insertOne({ name: category });
+            categoryId = catResult.insertedId;
+        }
+        else {
+            categoryId = cat._id;
+        }
         const data = {
             name,
-            developer: new mongodb_1.ObjectId(dev),
-            publisher: new mongodb_1.ObjectId(publisher),
-            category: new mongodb_1.ObjectId(category),
-            price,
+            developer: developerId,
+            publisher: publisherId,
+            category: categoryId,
+            price: Number(price),
             description,
             image: url.slice(0, 5),
             video: url[5],
@@ -54,9 +104,9 @@ const postbook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         console.log(error);
     }
 });
-exports.postbook = postbook;
+exports.postgame = postgame;
 // Delete books
-const deleteBookByID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const deletegameByID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, server_1.Database)();
         const { id } = req.params;
@@ -68,19 +118,22 @@ const deleteBookByID = (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.send(error);
     }
 });
-exports.deleteBookByID = deleteBookByID;
+exports.deletegameByID = deletegameByID;
 // Update books
-const updateBookByID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const UpdateGame = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, server_1.Database)();
         const { id } = req.params;
-        const data = req.body;
-        const result = yield server_1.client.db("Webpro").collection("product").updateOne({ _id: new mongodb_1.ObjectId(id) }, { $set: data });
-        res.status(200).send(result);
+        const { price } = req.body;
+        yield (0, server_1.Database)();
+        const updategame = {
+            price
+        };
+        const change = yield server_1.client.db("Webpro").collection("product").updateOne({ _id: new mongodb_1.ObjectId(id) }, { $set: updategame });
+        console.log(change);
+        res.status(201).json(change);
     }
     catch (error) {
-        console.log(error);
-        res.send(error);
+        console.log("Error", error);
     }
 });
-exports.updateBookByID = updateBookByID;
+exports.UpdateGame = UpdateGame;

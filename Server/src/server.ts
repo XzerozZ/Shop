@@ -4,7 +4,7 @@ import { login,changePassword } from "./authen/login";
 import { Adddev } from "./admin/Developer";
 import { AddPublisher } from "./admin/Publisher";
 import { AddtoCart } from "./Product/Cart";
-import { postbook,deleteBookByID,updateBookByID} from "./admin/Releasebook";
+import { postgame,deletegameByID,UpdateGame} from "./admin/Releasebook";
 const app = express();
 const { MongoClient } = require("mongodb");
 const cors = require("cors");
@@ -31,10 +31,11 @@ app.post("/api/signup", signup);
 app.post("/api/login", login );
 app.post("/api/dev", Adddev);
 app.post("/api/publisher", AddPublisher);
-app.post("/api/postbook", postbook);
+app.post("/api/postgame", postgame);
 app.post("/api/addtocart", AddtoCart);
-app.delete("/api/delete", deleteBookByID);
+app.delete("/api/delete/:id", deletegameByID);
 app.put("/api/changepassword", changePassword);
+app.put("/api/updategame/:id", UpdateGame);
 
 const PORT: number = parseInt((process.env.PORT || '4000') as string, 10)
 

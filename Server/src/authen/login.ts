@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { client, Database } from '../server';
 import { matchPassword,hashPassword } from '../hash';
-import { ObjectId } from "mongodb";
 
 
 export const login = async (req: Request, res: Response) => {
@@ -18,6 +17,7 @@ export const login = async (req: Request, res: Response) => {
             res.status(400).json({ message: 'password not match' });
             return false;
         }
+        res.cookie('user', JSON.stringify(findEmail), { maxAge: 86400e3, httpOnly: true });
         res.status(200).json({ message: 'login success', result: findEmail});
     } catch (error) {
         console.log(error);

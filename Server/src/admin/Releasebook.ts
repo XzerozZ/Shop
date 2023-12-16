@@ -3,7 +3,7 @@ import { upLoadeIMG, upLoadePDF , upLoadeVideo } from "../data/supa";
 import { client , Database} from "../server";
 import { ObjectId } from "mongodb";
 
-export const postbook = async (req: Request, res: Response) => {
+export const postgame = async (req: Request, res: Response) => {
   try {
     const dataFile = req.files;
 
@@ -24,13 +24,70 @@ export const postbook = async (req: Request, res: Response) => {
 
     const { name, dev, price, description , publisher ,category  } = req.body;
     await client.connect();
-    
+    let developer = await client
+    .db("Webpro")
+    .collection("dev")
+    .findOne({ name: dev });
+
+  let developerId;
+
+  if (!developer) {
+    // If developer doesn't exist, insert a new record
+    const devResult = await client
+      .db("Webpro")
+      .collection("dev")
+      .insertOne({ name: dev });
+
+    developerId = devResult.insertedId;
+  } else {
+    developerId = developer._id;
+  }
+
+  // Check if publisher exists
+  let pub = await client
+    .db("Webpro")
+    .collection("publisher")
+    .findOne({ name: publisher });
+
+  let publisherId;
+
+  if (!pub) {
+    // If publisher doesn't exist, insert a new record
+    const pubResult = await client
+      .db("Webpro")
+      .collection("publisher")
+      .insertOne({ name: publisher });
+
+    publisherId = pubResult.insertedId;
+  } else {
+    publisherId = pub._id;
+  }
+
+  // Check if category exists
+  let cat = await client
+    .db("Webpro")
+    .collection("categories")
+    .findOne({ name: category });
+
+  let categoryId;
+
+  if (!cat) {
+    // If category doesn't exist, insert a new record
+    const catResult = await client
+      .db("Webpro")
+      .collection("categories")
+      .insertOne({ name: category });
+
+    categoryId = catResult.insertedId;
+  } else {
+    categoryId = cat._id;
+  }
     const data = {
       name,
-      developer : new ObjectId(dev),
-      publisher : new ObjectId(publisher) ,
-      category : new ObjectId(category),
-      price,
+      developer: developerId,
+      publisher: publisherId,
+      category: categoryId,
+      price : Number(price) ,
       description,
       image : url.slice(0,5),
       video : url[5],
@@ -47,7 +104,7 @@ export const postbook = async (req: Request, res: Response) => {
   }
 };
 // Delete books
-export const deleteBookByID = async (req: Request, res: Response) => {
+export const deletegameByID = async (req: Request, res: Response) => {
     try {
         await Database();
         const {id} = req.params;
@@ -61,15 +118,19 @@ export const deleteBookByID = async (req: Request, res: Response) => {
 
 // Update books
 
-export const updateBookByID = async (req: Request, res: Response) => {
-    try {
-        await Database();
-        const {id} = req.params;
-        const data = req.body;
-        const result = await client.db("Webpro").collection("product").updateOne({ _id: new ObjectId(id) }, { $set: data });
-        res.status(200).send(result);
-    } catch (error) {
-        console.log(error);
-        res.send(error);
-    }
+export const UpdateGame = async (req:Request,res:Response)=>{
+  try {
+      const {id} = req.params;
+      const {price} = req.body;
+      await Database();
+      const updategame = {
+          price
+      };
+      const change = await client.db("Webpro").collection("product").updateOne({_id: new ObjectId(id)},{$set:updategame});
+      console.log(change);
+      res.status(201).json(change);
+  } catch (error) {
+      console.log("Error",error);
+      
+  }
 };
