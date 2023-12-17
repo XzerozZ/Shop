@@ -40,7 +40,7 @@ const getproductinCart = (req, res) => __awaiter(void 0, void 0, void 0, functio
             { $unwind: "$productinfo", },
             {
                 $project: {
-                    productIDObjectId: 0, // Exclude the temporary field from the final result if desired
+                    productIDObjectId: 0,
                 },
             },
         ])
@@ -48,7 +48,6 @@ const getproductinCart = (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.status(200).send({ matching });
     }
     catch (error) {
-        // Handle errors and send an error response
         console.log(error);
         res.status(500).send({ error: "Internal Server Error" });
     }

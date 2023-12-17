@@ -115,22 +115,3 @@ export const deletegameByID = async (req: Request, res: Response) => {
         res.send(error);
     }
 };
-
-// Update books
-
-export const UpdateGame = async (req:Request,res:Response)=>{
-  try {
-      const {id} = req.params;
-      const {price} = req.body;
-      await Database();
-      const updategame = {
-          price
-      };
-      const change = await client.db("Webpro").collection("product").updateOne({_id: new ObjectId(id)},{$set:updategame});
-      console.log(change);
-      res.status(201).json(change);
-  } catch (error) {
-      console.log("Error",error);
-      
-  }
-};

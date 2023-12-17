@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateGame = exports.deletegameByID = exports.postgame = void 0;
+exports.deletegameByID = exports.postgame = void 0;
 const supa_1 = require("../data/supa");
 const server_1 = require("../server");
 const mongodb_1 = require("mongodb");
@@ -119,21 +119,3 @@ const deletegameByID = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.deletegameByID = deletegameByID;
-// Update books
-const UpdateGame = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { id } = req.params;
-        const { price } = req.body;
-        yield (0, server_1.Database)();
-        const updategame = {
-            price
-        };
-        const change = yield server_1.client.db("Webpro").collection("product").updateOne({ _id: new mongodb_1.ObjectId(id) }, { $set: updategame });
-        console.log(change);
-        res.status(201).json(change);
-    }
-    catch (error) {
-        console.log("Error", error);
-    }
-});
-exports.UpdateGame = UpdateGame;

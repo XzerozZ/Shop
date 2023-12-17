@@ -1,6 +1,6 @@
 const { Request, Response } = require('express');
-const { connectToDatabase } = require('./database');
-const { hashPassword } = require('../hash');
+const { connectToDatabase } = require('./src/database');
+const { hashPassword } = require('../src/hash');
 
 const signup = async (req, res) => {
     try {
@@ -16,11 +16,8 @@ const signup = async (req, res) => {
             if (rows.length === 0) {
                 // Email doesn't exist, proceed with signup
                 const hashedPassword = await hashPassword(password);
-
                 await connection.query('INSERT INTO user (username, email, password) VALUES (?, ?, ?)', [username, email, hashedPassword]);
-
                 await connection.commit();
-
                 res.status(200).send({ user: { username, email } });
             } else {
                 // Email already exists

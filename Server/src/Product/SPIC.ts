@@ -30,14 +30,13 @@ export const getproductinCart = async (req: Request, res: Response) => {
     
     {
       $project: {
-        productIDObjectId: 0, // Exclude the temporary field from the final result if desired
+        productIDObjectId: 0,
       },
     },
   ])
   .toArray();
     res.status(200).send({ matching });
   } catch (error) {
-    // Handle errors and send an error response
     console.log(error);
     res.status(500).send({ error: "Internal Server Error" });
   }
