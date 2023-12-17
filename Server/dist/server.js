@@ -63,6 +63,7 @@ app.delete("/api/delete/:id", ReleaseProduct_1.deletegameByID);
 app.put("/api/changepassword", login_1.changePassword);
 app.put("/api/updategame/:id", ReleaseProduct_1.UpdateGame);
 app.get("/api/fetchgame", Fetchgame_1.Fetchgame);
+app.get("/api/fetchcategory", Fetchgame_1.FetchCategories);
 app.get("/api/showproduct", SPIC_1.getproductinCart);
 app.delete("/api/deletecart", decode_1.auth, Cart_1.DeleteCart);
 app.delete("/api/deletecheckout", Cart_1.DeleteItemCheckOut);

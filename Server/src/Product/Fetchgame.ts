@@ -43,3 +43,16 @@ export const Fetchgame = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'something went wrong' });
     }
 };
+export const FetchCategories = async (req : Request , res : Response) => {
+    try {
+        await Database();
+        const result = await client
+       .db("Webpro")
+       .collection("categories")
+       .find().toArray();
+        res.status(200).send(result);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message:'something went wrong' });
+    }
+};

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Fetchgame = void 0;
+exports.FetchCategories = exports.Fetchgame = void 0;
 const server_1 = require("../server");
 const Fetchgame = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -55,3 +55,18 @@ const Fetchgame = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.Fetchgame = Fetchgame;
+const FetchCategories = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield (0, server_1.Database)();
+        const result = yield server_1.client
+            .db("Webpro")
+            .collection("categories")
+            .find().toArray();
+        res.status(200).send(result);
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'something went wrong' });
+    }
+});
+exports.FetchCategories = FetchCategories;
