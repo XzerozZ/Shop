@@ -9,16 +9,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DeleteCart = exports.AddtoCart = void 0;
+exports.DeleteItemCheckOut = exports.DeleteCart = exports.AddtoCart = void 0;
 const server_1 = require("../server");
 const mongodb_1 = require("mongodb");
 const AddtoCart = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, server_1.Database)();
         const { userID, productID } = req.query;
+        if (!userID || !productID) {
+            res.status(400).send({ message: "userID and productID are required in the query parameters." });
+            return;
+        }
         const data = {
-            userID: new mongodb_1.ObjectId(Number(userID)),
-            productID: new mongodb_1.ObjectId(Number(productID)),
+            userID: userID,
+            productID: productID,
         };
         const result = yield server_1.client
             .db("Webpro")
@@ -53,3 +57,19 @@ const DeleteCart = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.DeleteCart = DeleteCart;
+const DeleteItemCheckOut = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield (0, server_1.Database)();
+        const { userID } = req.query;
+        const result = yield server_1.client
+            .db("Webpro")
+            .collection("Cart")
+            .deleteMany({ userID: userID });
+        res.status(200).send({ message: "Deleted from cart", result });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).send({ error: "Internal server error" });
+    }
+});
+exports.DeleteItemCheckOut = DeleteItemCheckOut;

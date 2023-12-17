@@ -13,7 +13,7 @@ export const Fetchgame = async (req: Request, res: Response) => {
               from: "dev",
               localField: "developer",
               foreignField: "_id",
-              as: "author_name"
+              as: "developer_info"
             },
           },
           {

@@ -9,46 +9,35 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Fetchgame = void 0;
+exports.getproductinCart = void 0;
 const server_1 = require("../server");
-const Fetchgame = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getproductinCart = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, server_1.Database)();
-        const result = yield server_1.client
-            .db("Webpro")
-            .collection("product")
+        const { userID } = req.query;
+        const matching = yield server_1.client.db("Webpro").collection("Cart")
             .aggregate([
             {
-                $lookup: {
-                    from: "dev",
-                    localField: "developer",
-                    foreignField: "_id",
-                    as: "developer_info"
+                $match: {
+                    userID: userID
                 },
             },
             {
                 $lookup: {
-                    from: "publisher",
-                    localField: "publisher",
+                    from: "product",
+                    localField: "productID",
                     foreignField: "_id",
-                    as: "publisherInfo",
-                },
-            },
-            {
-                $lookup: {
-                    from: "categories",
-                    localField: "category",
-                    foreignField: "_id",
-                    as: "categoryDetails",
+                    as: "productinfo",
                 },
             },
         ])
             .toArray();
-        res.status(200).send(result);
+        // Send the response with the retrieved product information
+        res.status(200).send({ message: "Get Product in cart", matching });
     }
-    catch (err) {
-        console.log(err);
-        res.status(500).json({ message: 'something went wrong' });
+    catch (error) {
+        // Handle errors and send an error response
+        console.log(error);
+        res.status(500).send({ error: "Internal Server Error" });
     }
 });
-exports.Fetchgame = Fetchgame;
+exports.getproductinCart = getproductinCart;
