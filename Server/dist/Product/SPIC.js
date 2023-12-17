@@ -13,26 +13,38 @@ exports.getproductinCart = void 0;
 const server_1 = require("../server");
 const getproductinCart = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        yield (0, server_1.Database)();
         const { userID } = req.query;
-        const matching = yield server_1.client.db("Webpro").collection("Cart")
+        const matching = yield server_1.client
+            .db("Webpro")
+            .collection("Cart")
             .aggregate([
             {
                 $match: {
-                    userID: userID
+                    userID: userID,
+                },
+            },
+            {
+                $addFields: {
+                    productIDObjectId: { $toObjectId: "$productID" },
                 },
             },
             {
                 $lookup: {
                     from: "product",
-                    localField: "productID",
+                    localField: "productIDObjectId",
                     foreignField: "_id",
                     as: "productinfo",
                 },
             },
+            {
+                $project: {
+                    productIDObjectId: 0, // Exclude the temporary field from the final result if desired
+                },
+            },
         ])
             .toArray();
-        // Send the response with the retrieved product information
-        res.status(200).send({ message: "Get Product in cart", matching });
+        res.status(200).send({ matching });
     }
     catch (error) {
         // Handle errors and send an error response
