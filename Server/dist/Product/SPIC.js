@@ -37,6 +37,7 @@ const getproductinCart = (req, res) => __awaiter(void 0, void 0, void 0, functio
                     as: "productinfo",
                 },
             },
+            { $unwind: "$productinfo", },
             {
                 $project: {
                     productIDObjectId: 0, // Exclude the temporary field from the final result if desired

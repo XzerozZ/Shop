@@ -26,6 +26,8 @@ export const getproductinCart = async (req: Request, res: Response) => {
         as: "productinfo",
       },
     },
+    {$unwind: "$productinfo",},
+    
     {
       $project: {
         productIDObjectId: 0, // Exclude the temporary field from the final result if desired

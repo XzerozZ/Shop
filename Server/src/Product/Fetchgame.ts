@@ -16,6 +16,7 @@ export const Fetchgame = async (req: Request, res: Response) => {
               as: "developer_info"
             },
           },
+          {$unwind: "$developer_info",},
           {
             $lookup: {
               from: "publisher",
@@ -24,6 +25,7 @@ export const Fetchgame = async (req: Request, res: Response) => {
               as: "publisherInfo",
             },
           },
+          {$unwind: "$publisherInfo",},
           {
             $lookup: {
               from: "categories",
@@ -32,6 +34,7 @@ export const Fetchgame = async (req: Request, res: Response) => {
               as: "categoryDetails",
             },
           },
+          {$unwind: "$categoryDetails",},
         ])
         .toArray();
       res.status(200).send(result);

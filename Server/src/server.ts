@@ -6,6 +6,7 @@ import { postgame,deletegameByID,UpdateGame} from "./admin/ReleaseProduct";
 import { checkToken } from "./authen/tokenchecker";
 import { Fetchgame } from "./Product/Fetchgame";
 import {auth} from "./authen/decode";
+import { showtrans } from "./data/showtransaction";
 import { getproductinCart } from "./Product/SPIC";
 import bodyparser from "body-parser";
 import cookieParser from "cookie-parser";
@@ -52,6 +53,7 @@ app.get("/api/showproduct", getproductinCart);
 app.delete("/api/deletecart", DeleteCart);
 app.delete("/api/deletecheckout", DeleteItemCheckOut);
 app.post("/api/checkout", Checkout);
+app.get("/api/showtrans", showtrans);
 const PORT: number = parseInt((process.env.PORT || '4000') as string, 10)
 
 app.listen(PORT, () => {

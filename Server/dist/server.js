@@ -20,6 +20,7 @@ const Cart_1 = require("./Product/Cart");
 const ReleaseProduct_1 = require("./admin/ReleaseProduct");
 const tokenchecker_1 = require("./authen/tokenchecker");
 const Fetchgame_1 = require("./Product/Fetchgame");
+const showtransaction_1 = require("./data/showtransaction");
 const SPIC_1 = require("./Product/SPIC");
 const body_parser_1 = __importDefault(require("body-parser"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
@@ -65,6 +66,7 @@ app.get("/api/showproduct", SPIC_1.getproductinCart);
 app.delete("/api/deletecart", Cart_1.DeleteCart);
 app.delete("/api/deletecheckout", Cart_1.DeleteItemCheckOut);
 app.post("/api/checkout", checkout_1.Checkout);
+app.get("/api/showtrans", showtransaction_1.showtrans);
 const PORT = parseInt((process.env.PORT || '4000'), 10);
 app.listen(PORT, () => {
     console.log(`server started at http://localhost:${PORT}`);

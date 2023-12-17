@@ -26,6 +26,7 @@ const Fetchgame = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                     as: "developer_info"
                 },
             },
+            { $unwind: "$developer_info", },
             {
                 $lookup: {
                     from: "publisher",
@@ -34,6 +35,7 @@ const Fetchgame = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                     as: "publisherInfo",
                 },
             },
+            { $unwind: "$publisherInfo", },
             {
                 $lookup: {
                     from: "categories",
@@ -42,6 +44,7 @@ const Fetchgame = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                     as: "categoryDetails",
                 },
             },
+            { $unwind: "$categoryDetails", },
         ])
             .toArray();
         res.status(200).send(result);
