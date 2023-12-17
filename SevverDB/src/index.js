@@ -16,14 +16,12 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 //Sign-up
-app.post('/signup', (req, res) => {
+app.post('/api/signup', (req, res) => {
     const { username, email, password } = req.body;
     if (!username ||  !email || !password ) {
         res.send("All fields are required");
         return;
     }
-
-    // Check if the email already exists in the 'customer' table
     db.query('SELECT * FROM User WHERE email = ?', [email], (selectErr, selectResult) => {
         
         if (selectErr) {
@@ -31,14 +29,10 @@ app.post('/signup', (req, res) => {
             res.send("Internal Server Error");
             return;
         }
-
-        // If email already exists, send an error response
         if (selectResult.length > 0) {
             res.send("Email already exists");
             return;
         }
-
-        // If email is unique, proceed with the signup
         db.query('INSERT INTO User (name, email, password,role) VALUES (?,?,?,"user")', [username, email, password], (insertErr, insertResult) => {
             if (insertErr) {
                 console.log(insertErr);
@@ -53,7 +47,7 @@ app.post('/signup', (req, res) => {
 });
 
 //Sing-in
-app.post('/signin', (req, res) => {
+app.post('/api/signin', (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
         res.send("All fields are required");
@@ -77,7 +71,7 @@ app.post('/signin', (req, res) => {
 })
 
 //Change password
-app.post('/changepassword', (req, res) => {
+app.post('/api/changepassword', (req, res) => {
     const { email, newPassword } = req.body;
     // Check if email and new password are provided
     if (!email || !newPassword) {

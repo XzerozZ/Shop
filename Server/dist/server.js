@@ -26,6 +26,7 @@ const SPIC_1 = require("./Product/SPIC");
 const body_parser_1 = __importDefault(require("body-parser"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const checkout_1 = require("./data/checkout");
+const ShowgamebyID_1 = require("./Product/ShowgamebyID");
 const app = (0, express_1.default)();
 const { MongoClient } = require("mongodb");
 const cors = require("cors");
@@ -33,7 +34,8 @@ const multer = require("multer");
 const mongoURL = "mongodb+srv://Valhir:Dino2064!@cluster0.vts6job.mongodb.net/";
 exports.client = new MongoClient(mongoURL);
 app.use(cors({
-    origin: "http://localhost:5173"
+    origin: "http://localhost:5173",
+    credentials: true,
 }));
 app.use(body_parser_1.default.json());
 app.use((0, cookie_parser_1.default)());
@@ -69,6 +71,7 @@ app.delete("/api/deletecart", decode_1.auth, Cart_1.DeleteCart);
 app.delete("/api/deletecheckout", Cart_1.DeleteItemCheckOut);
 app.post("/api/checkout", checkout_1.Checkout);
 app.get("/api/showtrans", showtransaction_1.showtrans);
+app.get("/api/getgame", ShowgamebyID_1.getGameByID);
 const PORT = parseInt((process.env.PORT || '4000'), 10);
 app.listen(PORT, () => {
     console.log(`server started at http://localhost:${PORT}`);
