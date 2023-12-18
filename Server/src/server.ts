@@ -13,6 +13,7 @@ import bodyparser from "body-parser";
 import cookieParser from "cookie-parser";
 import { Checkout } from "./data/checkout";
 import { getGameByID } from "./Product/ShowgamebyID";
+import { getUserbyID } from "./data/UserbyId";
 const app = express();
 const { MongoClient } = require("mongodb");
 const cors = require("cors");
@@ -59,6 +60,7 @@ app.delete("/api/deletecheckout", DeleteItemCheckOut);
 app.post("/api/checkout", Checkout);
 app.get("/api/showtrans", showtrans);
 app.get("/api/getgame", getGameByID);
+app.get("/api/getuser", getUserbyID);
 const PORT: number = parseInt((process.env.PORT || '4000') as string, 10)
 
 app.listen(PORT, () => {

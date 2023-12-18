@@ -9,19 +9,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.showtrans = void 0;
-const mysql_1 = require("../mysql");
-const showtrans = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getUserbyID = void 0;
+const server_1 = require("../server");
+const getUserbyID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const client = yield (0, mysql_1.dbConnect)();
+        yield (0, server_1.Database)();
         const { userID } = req.params;
-        console.log('UserID:', userID);
-        const data = yield client.query('SELECT * FROM transaction WHERE User_Id = ?', [userID]);
-        console.log('Fetched data:', data[0]);
-        res.status(200).send(data[0]);
+        const result = yield server_1.client.db("Webpro").collection('user').findOne({ _Id: userID });
+        console.log('Fetched data:', result);
+        res.status(200).send(result);
     }
     catch (_a) {
         res.status(500).send({ error: "Internal Server Error" });
     }
 });
-exports.showtrans = showtrans;
+exports.getUserbyID = getUserbyID;

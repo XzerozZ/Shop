@@ -28,6 +28,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const checkout_1 = require("./data/checkout");
 const ShowgamebyID_1 = require("./Product/ShowgamebyID");
+const UserbyId_1 = require("./data/UserbyId");
 const app = (0, express_1.default)();
 const { MongoClient } = require("mongodb");
 const cors = require("cors");
@@ -73,6 +74,7 @@ app.delete("/api/deletecheckout", Cart_1.DeleteItemCheckOut);
 app.post("/api/checkout", checkout_1.Checkout);
 app.get("/api/showtrans", showtransaction_1.showtrans);
 app.get("/api/getgame", ShowgamebyID_1.getGameByID);
+app.get("/api/getuser", UserbyId_1.getUserbyID);
 const PORT = parseInt((process.env.PORT || '4000'), 10);
 app.listen(PORT, () => {
     console.log(`server started at http://localhost:${PORT}`);
