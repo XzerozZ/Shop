@@ -9,20 +9,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Checkout = void 0;
+exports.getproductinCart = void 0;
 const mysql_1 = require("../mysql");
-const Checkout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getproductinCart = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { userID, productID, totalAmount } = req.body;
-        const client = (0, mysql_1.dbConnect)();
-        const productIDArray = productID.map((item) => parseInt(item, 10));
-        const currentDate = new Date();
-        const result = yield client.query('INSERT INTO Transaction (User_ID, Product_ID, totalAmount, date)VALUES (?, ?, ?, ?)', [userID, JSON.stringify(productIDArray), totalAmount, currentDate]);
-        res.status(200).send({ checkout: "success", data: result.rows[0] });
+        const client = yield (0, mysql_1.dbConnect)();
+        const { userID } = req.query;
+        const result = yield client.query('SELECT * FROM cart WHERE User_Id =?', [userID]);
+        res.status(200).send(result[0]);
     }
     catch (error) {
-        console.log(error);
+        console.error(error);
         res.status(500).send({ error: "Internal server error" });
     }
 });
-exports.Checkout = Checkout;
+exports.getproductinCart = getproductinCart;
