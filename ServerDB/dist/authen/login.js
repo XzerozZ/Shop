@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.changePassword = exports.login = void 0;
+exports.logout = exports.changePassword = exports.login = void 0;
 const mysql_1 = require("../mysql");
 const hash_1 = require("../hash");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -58,3 +58,14 @@ const changePassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.changePassword = changePassword;
+const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        res.clearCookie('token');
+        res.status(200).json({ message: 'Logout success' });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Something went wrong' });
+    }
+});
+exports.logout = logout;

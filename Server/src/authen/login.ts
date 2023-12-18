@@ -50,3 +50,13 @@ export const changePassword = async (req: Request, res: Response) => {
       res.status(500).send("Internal Server Error");
     }
   };
+  
+  export const logout = async (req: Request, res: Response) => {
+    try {
+      res.clearCookie('token');
+      res.status(200).json({ message: 'Logout success' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Something went wrong' });
+    }
+  };

@@ -1,6 +1,6 @@
 import express from "express";
 import { signup } from "./authen/signup";
-import { login,changePassword } from "./authen/login";
+import { login,changePassword,logout} from "./authen/login";
 import { AddtoCart , DeleteCart, DeleteItemCheckOut } from "./Product/Cart";
 import { postgame,deletegameByID} from "./admin/ReleaseProduct";
 import { UpdateGame } from "./admin/updateproduct";
@@ -49,6 +49,7 @@ app.post("/api/checkout", Checkout);
 app.get("/api/showtrans/:id", showtrans);
 app.get("/api/getgame", getGameByID);
 app.get("/api/getuser", getUserbyID);
+app.get("/api/logout", logout);
 const PORT: number = parseInt((process.env.PORT || '4000') as string, 10)
 
 app.listen(PORT, () => {
