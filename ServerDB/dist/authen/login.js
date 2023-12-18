@@ -27,7 +27,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return;
         }
         console.log(data[0]);
-        const payload = { id: data[0].User_Id, username: data[0].username, email: data[0].email };
+        const payload = { id: data[0][0].User_Id, username: data[0][0].username, email: data[0][0].email };
         console.log(payload);
         const token = jsonwebtoken_1.default.sign(payload, server_1.secret, { expiresIn: '1h' });
         res.cookie('token', token, { httpOnly: true });

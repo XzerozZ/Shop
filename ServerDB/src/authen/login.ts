@@ -15,7 +15,7 @@ export const login = async (req: Request, res: Response) => {
             return;
         }
         console.log(data[0]);
-        const payload = { id: data[0].User_Id , username: data[0].username, email: data[0].email};
+        const payload = { id: data[0][0].User_Id , username: data[0][0].username, email: data[0][0].email};
         console.log(payload);
         const token = jwt.sign(payload, secret, { expiresIn: '1h' });
         res.cookie('token', token, { httpOnly: true });
