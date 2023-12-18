@@ -61,7 +61,7 @@ app.get("/api/checktoken", tokenchecker_1.checkToken);
 app.post("/api/signup", signup_1.signup);
 app.post("/api/login", login_1.login);
 app.post("/api/postgame", ReleaseProduct_1.postgame);
-app.post("/api/addtocart", decode_1.auth, Cart_1.AddtoCart);
+app.post("/api/addtocart", Cart_1.AddtoCart);
 app.delete("/api/delete/:id", ReleaseProduct_1.deletegameByID);
 app.put("/api/changepassword", login_1.changePassword);
 app.put("/api/updategame/:id", UpdateProduct_1.UpdateGame);
