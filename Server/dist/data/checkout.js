@@ -15,50 +15,10 @@ const mongodb_1 = require("mongodb");
 const Checkout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, server_1.Database)();
     try {
-        const { userID, productID } = req.body;
+        const { userID, productID, totalAmount } = req.body;
         const product = Promise.all(productID === null || productID === void 0 ? void 0 : productID.map((item) => __awaiter(void 0, void 0, void 0, function* () {
             return new mongodb_1.ObjectId(item);
         })));
-        const totalPriceAggregation = yield server_1.client
-            .db("Webpro")
-            .collection("Cart")
-            .aggregate([
-            {
-                $match: {
-                    userID: userID,
-                },
-            },
-            {
-                $addFields: {
-                    productIDObjectId: { $toObjectId: "$productID" },
-                },
-            },
-            {
-                $lookup: {
-                    from: "product",
-                    localField: "productIDObjectId",
-                    foreignField: "_id",
-                    as: "productinfo",
-                },
-            },
-            {
-                $unwind: "$productinfo",
-            },
-            {
-                $group: {
-                    _id: null,
-                    totalPrice: { $sum: "$productinfo.price" },
-                },
-            },
-            {
-                $project: {
-                    _id: 0,
-                    totalPrice: 1,
-                },
-            },
-        ])
-            .toArray();
-        const totalAmount = totalPriceAggregation[0].totalPrice;
         const transaction = {
             userID,
             productID: yield product,

@@ -73,6 +73,7 @@ const postgame = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const devProductResult = yield client.query('INSERT INTO dev_product (Developer_Id, Product_Id) VALUES (?, ?) ON DUPLICATE KEY UPDATE Developer_Id=VALUES(Developer_Id), Product_Id=VALUES(Product_Id)', [developerId, product[0][0].Product_Id]);
         const productCategoryResult = yield client.query('INSERT INTO product_cate (Product_Id, Category_Id) VALUES (?, ?) ON DUPLICATE KEY UPDATE Product_Id=VALUES(Product_Id), Category_Id=VALUES(Category_Id)', [product[0][0].Product_Id, categoryId]);
         res.status(200).send('Product added successfully');
+        res.send(product[0]);
     }
     catch (error) {
         console.log(error);

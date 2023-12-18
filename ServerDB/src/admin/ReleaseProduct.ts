@@ -85,6 +85,7 @@ export const postgame = async (req: Request, res: Response) => {
       [product[0][0].Product_Id, categoryId]
     );
     res.status(200).send('Product added successfully');
+    res.send(product[0])
   } catch (error) {
     console.log(error);
   }
