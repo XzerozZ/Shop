@@ -18,7 +18,7 @@ export const login = async (req: Request, res: Response) => {
             res.status(400).json({ message: 'password not match' });
             return false;
         }
-        const payload = { id: findEmail._id ,role:findEmail.role };
+        const payload = { id: findEmail._id ,username: findEmail.username};
         const token = jwt.sign(payload, secret, { expiresIn: '1h' });
         res.cookie('token', token, { httpOnly: true });
         res.status(200).json({ message: 'login success', result: findEmail});
