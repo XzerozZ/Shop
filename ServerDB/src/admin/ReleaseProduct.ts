@@ -10,8 +10,7 @@ export const postgame = async (req: Request, res: Response) => {
   try {
     const dataFile = req.files;
 
-    
-    const url = await Promise.all(
+      const url = await Promise.all(
       (dataFile as any[]).map(async (file: any) => {
       if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
         const url = await upLoadeIMG(file.buffer);
@@ -73,8 +72,8 @@ export const postgame = async (req: Request, res: Response) => {
     // add game
     const addGame: any = await client.query(
       `INSERT INTO 
-            product (name, price,release_date, image_link1 , image_link2 ,image_link3 ,image_link4 ,image_link5 , video, description, Publisher_Id) VALUES (?, ?,?, ?,?,?,?,?, ?, ?, ?)`,
-      [data.name, data.price, data.release_date,data.image[0],data.image[1],data.image[2],data.image[3],data.image[4], data.video, data.description, publisherId]
+            product (name, price,release_date, description, Publisher_Id) VALUES (?, ?,?, ?, ?)`,
+      [data.name, data.price, data.release_date, data.description, publisherId]
     );
     const product:any = await client.query(`SELECT Product_Id FROM product WHERE name = "${data.name}"`)
 

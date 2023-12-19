@@ -36,7 +36,7 @@ app.get("/api/checktoken", checkToken);
 app.post("/api/signup", signup);
 app.post("/api/login", login );
 app.post("/api/postgame", postgame);
-app.post("/api/addtocart", auth,AddtoCart);
+app.post("/api/addtocart", AddtoCart);
 app.delete("/api/delete/:id", deletegameByID);
 app.put("/api/changepassword", changePassword);
 app.put("/api/updategame/:id", UpdateGame);

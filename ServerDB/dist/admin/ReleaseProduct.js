@@ -71,7 +71,7 @@ const postgame = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         console.log('Data:', data.video);
         // add game
         const addGame = yield client.query(`INSERT INTO 
-            product (name, price,release_date, image_link1 , image_link2 ,image_link3 ,image_link4 ,image_link5 , video, description, Publisher_Id) VALUES (?, ?,?, ?,?,?,?,?, ?, ?, ?)`, [data.name, data.price, data.release_date, data.image[0], data.image[1], data.image[2], data.image[3], data.image[4], data.video, data.description, publisherId]);
+            product (name, price,release_date, description, Publisher_Id) VALUES (?, ?,?, ?, ?)`, [data.name, data.price, data.release_date, data.description, publisherId]);
         const product = yield client.query(`SELECT Product_Id FROM product WHERE name = "${data.name}"`);
         const devProductResult = yield client.query('INSERT INTO dev_product (Developer_Id, Product_Id) VALUES (?, ?) ON DUPLICATE KEY UPDATE Developer_Id=VALUES(Developer_Id), Product_Id=VALUES(Product_Id)', [developerId, product[0][0].Product_Id]);
         const productCategoryResult = yield client.query('INSERT INTO product_cate (Product_Id, Category_Id) VALUES (?, ?) ON DUPLICATE KEY UPDATE Product_Id=VALUES(Product_Id), Category_Id=VALUES(Category_Id)', [product[0][0].Product_Id, categoryId]);
