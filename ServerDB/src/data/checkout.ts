@@ -4,12 +4,16 @@ import { dbConnect } from '../mysql';
 export const Checkout = async (req: Request, res: Response) => {
   try {
     const { userID, productID,totalAmount } = req.body;
-    const client = dbConnect();
-    const productIDArray = productID.map((item: any) => parseInt(item, 10));
-    const currentDate = new Date();
-    const result:any = await client.query('INSERT INTO Transaction (User_ID, Product_ID, totalAmount, date)VALUES (?, ?, ?, ?)', [userID, JSON.stringify(productIDArray), totalAmount, currentDate]);
 
-    res.status(200).send({ checkout: "success", data: result.rows[0] });
+    const result = await Promise.all(productID?.map(async (item: any) => {
+      const client = await dbConnect();
+      await client.query(`INSERT INTO Transaction ( User_ID, Product_ID, totalAmout, date) VALUES (?,?,?,?)`, [ userID, item, totalAmount, new Date()]);
+  }));
+  res.status(200).send({
+      checkout: "succsec",
+      data: result,
+  
+  });
   } catch (error) {
     console.log(error);
     res.status(500).send({ error: "Internal server error" });

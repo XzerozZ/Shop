@@ -10,21 +10,21 @@ export const postgame = async (req: Request, res: Response) => {
   try {
     const dataFile = req.files;
 
+    
     const url = await Promise.all(
       (dataFile as any[]).map(async (file: any) => {
-        if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-          const url = await upLoadeIMG(file.buffer);
-          return url;
-        } else if (file.mimetype === 'application/pdf') {
-          const url = await upLoadePDF(file.buffer);
-          return url;
-        } else if (file.mimetype === 'video/mp4') {
-          const url = await upLoadeVideo(file.buffer);
-          return url;
-        }
-      })
-    );
-
+      if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+        const url = await upLoadeIMG(file.buffer);
+        return url;
+      } else if (file.mimetype === "application/pdf") {
+        const url = await upLoadePDF(file.buffer);
+        return url;
+      } else if (file.mimetype === "video/mp4") {
+        const url = await upLoadeVideo(file.buffer);
+        return url;
+      }
+    })
+  );
     const { name, dev, price, description, publisher, category, facebook, instagram, X, youtube } = req.body;
     const client = await dbConnect();
 
@@ -37,14 +37,14 @@ export const postgame = async (req: Request, res: Response) => {
     );
     const pdfdata = Promise.all(
       url?.map((item: any) => {
-        if (item && item.match(/\.pdf$/) && item !== undefined && item !== null) {
+        if (item && item.match(/.pdf$/) && item !== undefined && item !== null) {
           return item;
         }
       })
     );
     const videodata = Promise.all(
       url?.map((item: any) => {
-        if (item && item.match(/\.mp4$/) && item !== undefined && item !== null) {
+        if (item && item.match(/.mp4$/) && item !== undefined && item !== null) {
           return item;
         } else {
           return false;
@@ -55,24 +55,26 @@ export const postgame = async (req: Request, res: Response) => {
     const pdf = await pdfdata;
     const image = await imagedata;
     const video = await videodata;
-
+    const sanitizedImage = image.map((url: string | undefined | null) => url || '');
     const publisherId: number = await createPublisher(publisher);
     const developerId: number = await createDev(dev, facebook, instagram, X, youtube);
     const categoryId: number = await createCategory(category);
     const data = {
       name,
       price,
-      image: image.slice(0, 5),
-      video: video[5],
+      image: sanitizedImage.slice(0, 5),
+      video: video[0],
       description,
       release_date  : new Date(),
     };
+    console.log('Sanitized Image:', sanitizedImage);
+    console.log('Data:', data.video);
 
     // add game
     const addGame: any = await client.query(
       `INSERT INTO 
-            product (name, price,release_date, image, video, description, Publisher_Id) VALUES (?, ?,?, ?, ?, ?, ?)`,
-      [data.name, data.price, data.release_date,JSON.stringify(data.image), data.video, data.description, publisherId]
+            product (name, price,release_date, image_link1 , image_link2 ,image_link3 ,image_link4 ,image_link5 , video, description, Publisher_Id) VALUES (?, ?,?, ?,?,?,?,?, ?, ?, ?)`,
+      [data.name, data.price, data.release_date,data.image[0],data.image[1],data.image[2],data.image[3],data.image[4], data.video, data.description, publisherId]
     );
     const product:any = await client.query(`SELECT Product_Id FROM product WHERE name = "${data.name}"`)
 

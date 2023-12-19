@@ -30,6 +30,8 @@ export const getGameByID = async (req: Request, res: Response) => {
     Where product.Product_Id = ?;`,[id]);
 
     res.status(200).send(result[0]);
+    const firstImageURL = result[0][0].image[1];
+    console.log(firstImageURL);
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: 'Something went wrong' });

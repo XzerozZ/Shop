@@ -38,6 +38,8 @@ const getGameByID = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     LEFT JOIN category ON product_cate.Category_Id = category.Category_Id
     Where product.Product_Id = ?;`, [id]);
         res.status(200).send(result[0]);
+        const firstImageURL = result[0][0].image[1];
+        console.log(firstImageURL);
     }
     catch (err) {
         console.log(err);
