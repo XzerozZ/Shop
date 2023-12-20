@@ -15,8 +15,33 @@ const showtrans = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
         const client = yield (0, mysql_1.dbConnect)();
-        const result = yield client.query(`SELECT Transaction.User_Id ,Transaction.Product_Id, Product.name  , Product.price  FROM Transaction Left JOIN Product ON Transaction.Product_Id = Product.Product_Id WHERE User_Id = ?`, [id]);
-        res.status(200).send(result[0]);
+        const result = yield client.query(`SELECT Transaction_Id _id , totalAmount , Product.Product_Id Product_Id,Product.name name  FROM Transaction Left JOIN Product ON Transaction.Product_Id = Product.Product_Id WHERE User_Id = ?`, [id]);
+        const trans = Array.isArray(result[0])
+            ? result[0].reduce((acc, item) => {
+                const existingItem = acc.find((i) => i._id === item._id);
+                if (existingItem) {
+                    existingItem.Product.push({
+                        _id: String(item.Product_Id),
+                        name: item.name
+                    });
+                }
+                else {
+                    acc.push({
+                        _id: item._id,
+                        totalAmount: item.totalAmount,
+                        date: item.date,
+                        Product: [
+                            {
+                                _id: String(item.Product_Id),
+                                name: item.name
+                            },
+                        ],
+                    });
+                }
+                return acc;
+            }, [])
+            : [];
+        res.status(200).send(trans);
     }
     catch (error) {
         console.log(error);

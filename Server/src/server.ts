@@ -58,7 +58,7 @@ app.get("/api/showproduct", getproductinCart);
 app.delete("/api/deletecart",auth, DeleteCart);
 app.delete("/api/deletecheckout", DeleteItemCheckOut);
 app.post("/api/checkout", Checkout);
-app.get("/api/showtrans", showtrans);
+app.get("/api/showtrans/:userID", showtrans);
 app.get("/api/getgame", getGameByID);
 app.get("/api/getuser", getUserbyID);
 app.get("/api/logout", logout);
