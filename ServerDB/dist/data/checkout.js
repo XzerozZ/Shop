@@ -11,14 +11,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Checkout = void 0;
 const mysql_1 = require("../mysql");
+const uuid_1 = require("uuid");
 const Checkout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userID, productID, totalAmount } = req.body;
-        const client = (0, mysql_1.dbConnect)();
-        const productIDArray = productID.map((item) => parseInt(item, 10));
-        const currentDate = new Date();
-        const result = yield client.query('INSERT INTO Transaction (User_ID, Product_ID, totalAmount, date)VALUES (?, ?, ?, ?)', [userID, JSON.stringify(productIDArray), totalAmount, currentDate]);
-        res.status(200).send({ checkout: "success", data: result.rows[0] });
+        const id = (0, uuid_1.v4)();
+        const result = yield Promise.all(productID === null || productID === void 0 ? void 0 : productID.map((item) => __awaiter(void 0, void 0, void 0, function* () {
+            const client = yield (0, mysql_1.dbConnect)();
+            yield client.query(`INSERT INTO Transaction ( Transaction_Id,User_ID, Product_ID, totalAmount, date) VALUES (?,?,?,?,?)`, [id, userID, item, totalAmount, new Date()]);
+        })));
+        res.status(200).send({
+            checkout: "succsec",
+            data: result,
+        });
     }
     catch (error) {
         console.log(error);

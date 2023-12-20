@@ -34,7 +34,9 @@ const AddtoCart = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return;
         }
         const result = yield client.query('INSERT INTO Cart (User_Id, Product_Id) VALUES (?, ?)', [userID, productID]);
-        res.status(200).send({ message: "Add to cart", result: result.rows[0] });
+        // Check if result.rows is defined before accessing the property '0'
+        const insertedRow = result.rows && result.rows.length > 0 ? result.rows[0] : null;
+        res.status(200).send({ message: "Add to cart", result: insertedRow });
         console.log("Add to cart");
     }
     catch (error) {

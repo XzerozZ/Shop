@@ -72,9 +72,10 @@ app.get("/api/showproduct", SPIC_1.getproductinCart);
 app.delete("/api/deletecart", decode_1.auth, Cart_1.DeleteCart);
 app.delete("/api/deletecheckout", Cart_1.DeleteItemCheckOut);
 app.post("/api/checkout", checkout_1.Checkout);
-app.get("/api/showtrans", showtransaction_1.showtrans);
+app.get("/api/showtrans/:userID", showtransaction_1.showtrans);
 app.get("/api/getgame", ShowgamebyID_1.getGameByID);
 app.get("/api/getuser", UserbyId_1.getUserbyID);
+app.get("/api/logout", login_1.logout);
 const PORT = parseInt((process.env.PORT || '4000'), 10);
 app.listen(PORT, () => {
     console.log(`server started at http://localhost:${PORT}`);

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.changePassword = exports.login = void 0;
+exports.logout = exports.changePassword = exports.login = void 0;
 const server_1 = require("../server");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const hash_1 = require("../hash");
@@ -30,7 +30,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             res.status(400).json({ message: 'password not match' });
             return false;
         }
-        const payload = { id: findEmail._id, role: findEmail.role };
+        const payload = { id: findEmail._id, username: findEmail.username };
         const token = jsonwebtoken_1.default.sign(payload, server_1.secret, { expiresIn: '1h' });
         res.cookie('token', token, { httpOnly: true });
         res.status(200).json({ message: 'login success', result: findEmail });
@@ -65,3 +65,14 @@ const changePassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.changePassword = changePassword;
+const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        res.clearCookie('token');
+        res.status(200).json({ message: 'Logout success' });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Something went wrong' });
+    }
+});
+exports.logout = logout;

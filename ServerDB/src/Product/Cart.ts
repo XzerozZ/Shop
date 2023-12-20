@@ -30,14 +30,17 @@ export const AddtoCart = async (req: Request, res: Response) => {
       }
   
       const result: any = await client.query('INSERT INTO Cart (User_Id, Product_Id) VALUES (?, ?)', [userID, productID]);
+
+      // Check if result.rows is defined before accessing the property '0'
+      const insertedRow = result.rows && result.rows.length > 0 ? result.rows[0] : null;
   
-      res.status(200).send({ message: "Add to cart", result: result.rows[0] });
+      res.status(200).send({ message: "Add to cart", result: insertedRow });
       console.log("Add to cart");
     } catch (error) {
       console.log(error);
       res.status(500).send({ error: "Internal server error" });
     }
-  };
+};
 
 export const DeleteCart = async (req: Request, res: Response) => {
   try {

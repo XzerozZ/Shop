@@ -13,15 +13,38 @@ exports.showtrans = void 0;
 const mysql_1 = require("../mysql");
 const showtrans = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const { id } = req.params;
         const client = yield (0, mysql_1.dbConnect)();
-        const { userID } = req.params;
-        console.log('UserID:', userID);
-        const data = yield client.query('SELECT * FROM transaction WHERE User_Id = ?', [userID]);
-        console.log('Fetched data:', data[0]);
-        res.status(200).send(data[0]);
+        const result = yield client.query(`SELECT Transaction_Id _id , totalAmount , Product.Product_Id Product_Id,Product.name name  FROM Transaction Left JOIN Product ON Transaction.Product_Id = Product.Product_Id WHERE User_Id = ?`, [id]);
+        const trans = Array.isArray(result[0])
+            ? result[0].reduce((acc, item) => {
+                const existingItem = acc.find((i) => i._id === item._id);
+                if (existingItem) {
+                    existingItem.Product.push({
+                        _id: String(item.Product_Id),
+                        name: item.name
+                    });
+                }
+                else {
+                    acc.push({
+                        _id: item._id,
+                        totalAmount: item.totalAmount,
+                        date: item.date,
+                        Product: [
+                            {
+                                _id: String(item.Product_Id),
+                                name: item.name
+                            },
+                        ],
+                    });
+                }
+                return acc;
+            }, [])
+            : [];
+        res.status(200).send(trans);
     }
-    catch (_a) {
-        res.status(500).send({ error: "Internal Server Error" });
+    catch (error) {
+        console.log(error);
     }
 });
 exports.showtrans = showtrans;
