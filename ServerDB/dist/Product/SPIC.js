@@ -15,8 +15,19 @@ const getproductinCart = (req, res) => __awaiter(void 0, void 0, void 0, functio
     try {
         const client = yield (0, mysql_1.dbConnect)();
         const { userID } = req.query;
-        const result = yield client.query('SELECT * FROM cart WHERE User_Id =?', [userID]);
-        res.status(200).send(result[0]);
+        const result = yield client.query('SELECT * FROM cart left join Product on Cart.Product_Id = Product.Product_Id  WHERE User_Id =?', [userID]);
+        const matching = result[0].map((item) => ({
+            _id: item.Cart_Id,
+            userID: item.User_Id,
+            productID: item.Product_Id,
+            productinfo: {
+                _id: item.Product_Id,
+                name: item.name,
+                price: item.price,
+                date: item.release_date
+            },
+        }));
+        res.status(200).send(matching);
     }
     catch (error) {
         console.error(error);

@@ -52,7 +52,7 @@ app.get("/api/showtrans/:id", showtransaction_1.showtrans);
 app.get("/api/getgame", ShowgamebyID_1.getGameByID);
 app.get("/api/getuser", UserbyId_1.getUserbyID);
 app.get("/api/logout", login_1.logout);
-const PORT = parseInt((process.env.PORT || '4000'), 10);
+const PORT = parseInt((process.env.PORT || '4001'), 10);
 app.listen(PORT, () => {
     console.log(`server started at http://localhost:${PORT}`);
 });
