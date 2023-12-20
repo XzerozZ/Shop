@@ -29,7 +29,7 @@ export const getGameByID = async (req: Request, res: Response) => {
     LEFT JOIN category ON product_cate.Category_Id = category.Category_Id
     Where product.Product_Id = ?;`,[id]);
     const mappedResult = result[0].map((item: any) => ({
-      Product_Id: item.Product_Id,
+      _id: item.Product_Id,
       name: item.name,
       price: item.price,
       release_date: item.release_date,

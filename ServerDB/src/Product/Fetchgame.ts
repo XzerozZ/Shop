@@ -27,7 +27,7 @@ export const Fetchgame = async (req: Request, res: Response) => {
 
     // Map SQL result to NoSQL-like structure
     const mappedResult = result[0].map((item: any) => ({
-      Product_Id: item.Product_Id,
+      _id: item.Product_Id,
       name: item.name,
       price: item.price,
       release_date: item.release_date,

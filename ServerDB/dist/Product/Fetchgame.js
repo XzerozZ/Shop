@@ -35,7 +35,7 @@ const Fetchgame = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const result = yield client.query(query);
         // Map SQL result to NoSQL-like structure
         const mappedResult = result[0].map((item) => ({
-            Product_Id: item.Product_Id,
+            _id: item.Product_Id,
             name: item.name,
             price: item.price,
             release_date: item.release_date,
