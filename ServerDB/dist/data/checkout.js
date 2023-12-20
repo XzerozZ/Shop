@@ -16,7 +16,7 @@ const Checkout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { userID, productID, totalAmount } = req.body;
         const result = yield Promise.all(productID === null || productID === void 0 ? void 0 : productID.map((item) => __awaiter(void 0, void 0, void 0, function* () {
             const client = yield (0, mysql_1.dbConnect)();
-            yield client.query(`INSERT INTO Transaction ( User_ID, Product_ID, totalAmout, date) VALUES (?,?,?,?)`, [userID, item, totalAmount, new Date()]);
+            yield client.query(`INSERT INTO Transaction ( User_ID, Product_ID, totalAmount, date) VALUES (?,?,?,?)`, [userID, item, totalAmount, new Date()]);
         })));
         res.status(200).send({
             checkout: "succsec",

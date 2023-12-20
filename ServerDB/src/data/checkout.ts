@@ -7,7 +7,7 @@ export const Checkout = async (req: Request, res: Response) => {
 
     const result = await Promise.all(productID?.map(async (item: any) => {
       const client = await dbConnect();
-      await client.query(`INSERT INTO Transaction ( User_ID, Product_ID, totalAmout, date) VALUES (?,?,?,?)`, [ userID, item, totalAmount, new Date()]);
+      await client.query(`INSERT INTO Transaction ( User_ID, Product_ID, totalAmount, date) VALUES (?,?,?,?)`, [ userID, item, totalAmount, new Date()]);
   }));
   res.status(200).send({
       checkout: "succsec",
