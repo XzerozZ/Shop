@@ -1,18 +1,9 @@
-<<<<<<< HEAD
 import { dbConnect } from '../mysql';
 import { Request, Response } from 'express';
 import { createDev } from './createdev';
 import { createPublisher } from './createpub';
 import { createCategory } from './createcate';
 import { upLoadeIMG, upLoadeVideo } from '../data/supa';
-=======
-import { dbConnect } from "../mysql";
-import { Request, Response } from "express";
-import { createDev } from "./createdev";
-import { createPublisher } from "./createpub";
-import { createCategory } from "./createcate";
-import { upLoadeIMG, upLoadeVideo } from "../data/supa";
->>>>>>> bf4dfd017637cfa63e09ca76a822f97752ef4a61
 
 export const postgame = async (req: Request, res: Response) => {
   try {
@@ -29,7 +20,6 @@ export const postgame = async (req: Request, res: Response) => {
       })
     );
 
-<<<<<<< HEAD
     const { name, dev, price, description, publisher, category, facebook, instagram, X, youtube } = req.body;
     const client = await dbConnect();
 
@@ -73,11 +63,6 @@ export const postgame = async (req: Request, res: Response) => {
       message: 'Product added successfully',
       product: product[0]
     });
-=======
-
-
-    res.status(200).send(url);
->>>>>>> bf4dfd017637cfa63e09ca76a822f97752ef4a61
   } catch (error) {
     console.log(error);
     res.status(500).send('Internal Server Error');
