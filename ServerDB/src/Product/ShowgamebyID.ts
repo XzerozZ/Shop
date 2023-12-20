@@ -28,8 +28,28 @@ export const getGameByID = async (req: Request, res: Response) => {
     LEFT JOIN product_cate ON product.Product_Id = product_cate.Product_Id
     LEFT JOIN category ON product_cate.Category_Id = category.Category_Id
     Where product.Product_Id = ?;`,[id]);
-
-    res.status(200).send(result[0]);
+    const mappedResult = result[0].map((item: any) => ({
+      Product_Id: item.Product_Id,
+      name: item.name,
+      price: item.price,
+      release_date: item.release_date,
+      description: item.description,
+      developer_info: {
+        name: item.developer_info,
+        facebook: item.facebook,
+        instagram: item.instagram,
+        X: item.X,
+        youtube: item.youtube,
+      },
+      publisherInfo: {
+        _id: item.Publisher_Id,
+        name: item.publisher_info,
+      },
+      categoryDetails: {
+        name: item.category,
+      },
+    }));
+    res.status(200).send(mappedResult);
     const firstImageURL = result[0][0].image[1];
     console.log(firstImageURL);
   } catch (err) {
