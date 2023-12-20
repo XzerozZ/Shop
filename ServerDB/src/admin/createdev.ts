@@ -1,6 +1,6 @@
 import { dbConnect } from '../mysql';
 
-export const createDev = async (devName: string, facebook: string, instagram: string, X: string, youtube: string): Promise<number> => {
+export const createDev = async (devName: any, facebook: any, instagram: any, X: any, youtube: any): Promise<number> => {
   const client = await dbConnect();
   const [existingDev] : any= await client.query('SELECT Developer_Id FROM Developer WHERE name = ?', [devName]);
 

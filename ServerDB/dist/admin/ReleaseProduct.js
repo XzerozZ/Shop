@@ -20,66 +20,40 @@ const postgame = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const dataFile = req.files;
         const url = yield Promise.all(dataFile.map((file) => __awaiter(void 0, void 0, void 0, function* () {
             if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
-                const url = yield (0, supa_1.upLoadeIMG)(file.buffer);
-                return url;
+                return yield (0, supa_1.upLoadeIMG)(file.buffer);
             }
-            else if (file.mimetype === "application/pdf") {
-                const url = yield (0, supa_1.upLoadePDF)(file.buffer);
-                return url;
-            }
-            else if (file.mimetype === "video/mp4") {
-                const url = yield (0, supa_1.upLoadeVideo)(file.buffer);
-                return url;
+            else if (file.mimetype === "video/mp4" || file.mimetype === "video/mkv") {
+                return yield (0, supa_1.upLoadeVideo)(file.buffer);
             }
         })));
         const { name, dev, price, description, publisher, category, facebook, instagram, X, youtube } = req.body;
         const client = yield (0, mysql_1.dbConnect)();
-        const imagedata = Promise.all(url === null || url === void 0 ? void 0 : url.map((item) => {
-            if (item && item.match(/\.jpg$/) && item !== undefined && item !== null) {
-                return item;
-            }
-        }));
-        const pdfdata = Promise.all(url === null || url === void 0 ? void 0 : url.map((item) => {
-            if (item && item.match(/.pdf$/) && item !== undefined && item !== null) {
-                return item;
-            }
-        }));
-        const videodata = Promise.all(url === null || url === void 0 ? void 0 : url.map((item) => {
-            if (item && item.match(/.mp4$/) && item !== undefined && item !== null) {
-                return item;
-            }
-            else {
-                return false;
-            }
-        }));
-        const pdf = yield pdfdata;
-        const image = yield imagedata;
-        const video = yield videodata;
-        const sanitizedImage = image.map((url) => url || '');
         const publisherId = yield (0, createpub_1.createPublisher)(publisher);
         const developerId = yield (0, createdev_1.createDev)(dev, facebook, instagram, X, youtube);
         const categoryId = yield (0, createcate_1.createCategory)(category);
         const data = {
             name,
             price,
-            image: sanitizedImage.slice(0, 5),
-            video: video[0],
+            image: url.slice(0, 5),
+            video: url[5],
             description,
             release_date: new Date(),
         };
-        console.log('Sanitized Image:', sanitizedImage);
-        console.log('Data:', data.video);
-        // add game
         const addGame = yield client.query(`INSERT INTO 
-            product (name, price,release_date, description, Publisher_Id) VALUES (?, ?,?, ?, ?)`, [data.name, data.price, data.release_date, data.description, publisherId]);
+            product (name, price,release_date,video,description, Publisher_Id) VALUES (?, ?,?,?, ?, ?)`, [data.name, data.price, data.release_date, data.video, data.description, publisherId]);
         const product = yield client.query(`SELECT Product_Id FROM product WHERE name = "${data.name}"`);
-        const devProductResult = yield client.query('INSERT INTO dev_product (Developer_Id, Product_Id) VALUES (?, ?) ON DUPLICATE KEY UPDATE Developer_Id=VALUES(Developer_Id), Product_Id=VALUES(Product_Id)', [developerId, product[0][0].Product_Id]);
-        const productCategoryResult = yield client.query('INSERT INTO product_cate (Product_Id, Category_Id) VALUES (?, ?) ON DUPLICATE KEY UPDATE Product_Id=VALUES(Product_Id), Category_Id=VALUES(Category_Id)', [product[0][0].Product_Id, categoryId]);
-        res.status(200).send('Product added successfully');
-        res.send(product[0]);
+        yield client.query('INSERT INTO Imageset(image1, image2, image3, image4, image5 , Product_Id) values (?, ?,?,?,?,?)', [data.image[0], data.image[1], data.image[2], data.image[3], data.image[4], product[0][0].Product_Id]);
+        yield client.query('INSERT INTO dev_product (Developer_Id, Product_Id) VALUES (?, ?) ON DUPLICATE KEY UPDATE Developer_Id=VALUES(Developer_Id), Product_Id=VALUES(Product_Id)', [developerId, product[0][0].Product_Id]);
+        // Link product to category
+        yield client.query('INSERT INTO product_cate (Product_Id, Category_Id) VALUES (?, ?) ON DUPLICATE KEY UPDATE Product_Id=VALUES(Product_Id), Category_Id=VALUES(Category_Id)', [product[0][0].Product_Id, categoryId]);
+        res.status(200).send({
+            message: 'Product added successfully',
+            product: product[0]
+        });
     }
     catch (error) {
         console.log(error);
+        res.status(500).send('Internal Server Error');
     }
 });
 exports.postgame = postgame;

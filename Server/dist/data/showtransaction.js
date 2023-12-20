@@ -15,8 +15,21 @@ const showtrans = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, server_1.Database)();
         const { userID } = req.params;
-        const result = yield server_1.client.db("Webpro").collection('Transaction').find({ userId: userID }).toArray();
-        console.log('Fetched data:', result);
+        const result = yield server_1.client.db("Webpro").collection("Transaction").aggregate([
+            {
+                $match: {
+                    userID: userID
+                }
+            },
+            {
+                $lookup: {
+                    from: "product",
+                    localField: "productID",
+                    foreignField: "_id",
+                    as: "game"
+                }
+            },
+        ]).toArray();
         res.status(200).send(result);
     }
     catch (_a) {

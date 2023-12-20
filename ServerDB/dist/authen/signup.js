@@ -11,23 +11,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.signup = void 0;
 const mysql_1 = require("../mysql");
+const hash_1 = require("../hash");
 const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
     try {
         const client = yield (0, mysql_1.dbConnect)();
         const { username, email, password } = req.body;
         // Check if the email already exists using COUNT
-        const emailCountResult = yield client.query(`SELECT COUNT(*) as count FROM user WHERE email = ?`, [email]);
-        // Extract the count value from the result
-        const emailCount = (_a = emailCountResult[0]) === null || _a === void 0 ? void 0 : _a.count;
-        // Check if the email count is greater than 0
-        if (emailCount > 0) {
+        const findemail = yield client.query("SELECT * FROM user WHERE email = ?", [email]);
+        if (findemail[0] != 0) {
             return res.status(400).send({
-                message: "Email already in use",
+                message: "Email already in use"
             });
         }
+        const hash = yield (0, hash_1.hashPassword)(password);
         // Insert new user
-        yield client.query(`INSERT INTO User(username, email, password) VALUES (?, ?, ?)`, [username, email, password]);
+        yield client.query(`INSERT INTO User(username, email, password) VALUES (?, ?, ?)`, [username, email, hash]);
         return res.status(201).send({
             message: "Sign up successful",
         });

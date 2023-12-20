@@ -1,31 +1,25 @@
 import { Request, Response } from "express";
 import { dbConnect } from "../mysql";
-
+import { hashPassword } from "../hash";
 export const signup = async (req: Request, res: Response) => {
   try {
     const client = await dbConnect();
     const { username, email, password } = req.body;
 
     // Check if the email already exists using COUNT
-    const emailCountResult: any = await client.query(
-      `SELECT COUNT(*) as count FROM user WHERE email = ?`,
-      [email]
-    );
-
-    // Extract the count value from the result
-    const emailCount = emailCountResult[0]?.count;
-
-    // Check if the email count is greater than 0
-    if (emailCount > 0) {
+    
+    const findemail : any  = await client.query("SELECT * FROM user WHERE email = ?", [email]);
+  
+    if (findemail[0] != 0) {
       return res.status(400).send({
-        message: "Email already in use",
+        message: "Email already in use"
       });
     }
-
+    const hash = await hashPassword(password)
     // Insert new user
     await client.query(
       `INSERT INTO User(username, email, password) VALUES (?, ?, ?)`,
-      [username, email, password]
+      [username, email, hash]
     );
 
     return res.status(201).send({
