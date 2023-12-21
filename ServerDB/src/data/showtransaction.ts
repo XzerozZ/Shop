@@ -34,7 +34,6 @@ export const showtrans = async (req: Request, res: Response) => {
             : []; 
         res.status(200).send(trans);
     } catch (error) {
-       console.log(error);
-        
+        res.status(500).send({ error: "Internal server error" });
     }
 };

@@ -29,8 +29,6 @@ export const Fetchgame = async (req: Request, res: Response) => {
         LEFT JOIN imageset on imageset.Product_Id = Product.Product_Id;`;
 
     const result: any = await client.query(query);
-
-    // Map SQL result to NoSQL-like structure
     const mappedResult = result[0].map((item: any) => ({
       _id: item.Product_Id,
       name: item.name,
@@ -62,7 +60,6 @@ export const Fetchgame = async (req: Request, res: Response) => {
     }));
     res.status(200).send(mappedResult);
   } catch (err) {
-    console.log(err);
     res.status(500).json({ message: 'Something went wrong' });
   }
 };
@@ -80,7 +77,6 @@ export const FetchCategories = async (req : Request , res : Response) => {
 
       res.status(200).send(result[0]);
     } catch (err) {
-      console.log(err);
       res.status(500).json({ message: 'Something went wrong' });
     }
   };

@@ -34,13 +34,11 @@ export const postgame = async (req: Request, res: Response) => {
       description,
       release_date: new Date(),
     };
-    
     const addGame: any = await client.query(
       `INSERT INTO 
             product (name, price,release_date,video,description, Publisher_Id) VALUES (?, ?,?,?, ?, ?)`,
       [data.name, data.price, data.release_date, data.video, data.description, publisherId]
     );
-
     const product: any = await client.query(`SELECT Product_Id FROM product WHERE name = "${data.name}"`);
     
     await client.query(
@@ -52,8 +50,6 @@ export const postgame = async (req: Request, res: Response) => {
       'INSERT INTO dev_product (Developer_Id, Product_Id) VALUES (?, ?) ON DUPLICATE KEY UPDATE Developer_Id=VALUES(Developer_Id), Product_Id=VALUES(Product_Id)',
       [developerId, product[0][0].Product_Id]
     );
-
-    // Link product to category
     await client.query(
       'INSERT INTO product_cate (Product_Id, Category_Id) VALUES (?, ?) ON DUPLICATE KEY UPDATE Product_Id=VALUES(Product_Id), Category_Id=VALUES(Category_Id)',
       [product[0][0].Product_Id, categoryId]
@@ -68,7 +64,6 @@ export const postgame = async (req: Request, res: Response) => {
     res.status(500).send('Internal Server Error');
   }
 };
-
 export const deletegameByID = async (req: Request, res: Response) => {
   try {
     const pool = dbConnect();
@@ -80,7 +75,6 @@ export const deletegameByID = async (req: Request, res: Response) => {
     pool.end();
     res.status(200).send(result);
   } catch (error) {
-    console.error(error);
     res.status(500).send({
       status: "error",
       message: "Internal Server Error",

@@ -30,7 +30,6 @@ const getproductinCart = (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.status(200).send(matching);
     }
     catch (error) {
-        console.error(error);
         res.status(500).send({ error: "Internal server error" });
     }
 });

@@ -25,7 +25,6 @@ const getUserbyID = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.status(200).send(result[0]);
     }
     catch (err) {
-        console.log(err);
         res.status(500).json({ message: 'Something went wrong' });
     }
 });

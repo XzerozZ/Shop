@@ -11,7 +11,6 @@ export const UpdateGame = async (req: Request, res: Response) => {
       res.status(400).json({ error: "Bad Request: 'price' is required" });
       return;
     }
-
     const result: any = await client.query(`UPDATE product SET price = ? WHERE Product_Id =  ?`,[price,id]);
 
     console.log("Update Result:", result);

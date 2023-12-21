@@ -16,7 +16,6 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const client = yield (0, mysql_1.dbConnect)();
         const { username, email, password } = req.body;
-        // Check if the email already exists using COUNT
         const findemail = yield client.query("SELECT * FROM user WHERE email = ?", [email]);
         if (findemail[0] != 0) {
             return res.status(400).send({
@@ -31,7 +30,6 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        console.error(error);
         return res.status(500).send({
             message: "Internal Server Error",
         });

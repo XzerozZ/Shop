@@ -5,8 +5,6 @@ export const signup = async (req: Request, res: Response) => {
   try {
     const client = await dbConnect();
     const { username, email, password } = req.body;
-
-    // Check if the email already exists using COUNT
     
     const findemail : any  = await client.query("SELECT * FROM user WHERE email = ?", [email]);
   
@@ -26,7 +24,6 @@ export const signup = async (req: Request, res: Response) => {
       message: "Sign up successful",
     });
   } catch (error) {
-    console.error(error);
     return res.status(500).send({
       message: "Internal Server Error",
     });

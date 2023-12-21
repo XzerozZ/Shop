@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DeleteItemCheckOut = exports.DeleteCart = exports.AddtoCart = void 0;
-const mysql_1 = require("../mysql"); // Assuming you have a database connection pool
+const mysql_1 = require("../mysql");
 const AddtoCart = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userID, productID } = req.query;
@@ -19,14 +19,12 @@ const AddtoCart = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             res.status(400).send({ message: "userID and productID are required in the query parameters." });
             return;
         }
-        // Fetch User_Id from the users table
         const userResult = yield client.query('SELECT User_Id FROM user WHERE User_Id = ?', [userID]);
         const userExists = userResult.length > 0;
         if (!userExists) {
             res.status(404).send({ error: "User not found" });
             return;
         }
-        // Fetch Product_Id from the products table
         const productResult = yield client.query('SELECT Product_Id FROM product WHERE Product_Id = ?', [productID]);
         const productExists = productResult.length > 0;
         if (!productExists) {
@@ -34,13 +32,11 @@ const AddtoCart = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return;
         }
         const result = yield client.query('INSERT INTO Cart (User_Id, Product_Id) VALUES (?, ?)', [userID, productID]);
-        // Check if result.rows is defined before accessing the property '0'
         const insertedRow = result.rows && result.rows.length > 0 ? result.rows[0] : null;
         res.status(200).send({ message: "Add to cart", result: insertedRow });
         console.log("Add to cart");
     }
     catch (error) {
-        console.log(error);
         res.status(500).send({ error: "Internal server error" });
     }
 });
@@ -53,9 +49,7 @@ const DeleteCart = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(200).send({ message: "Deleted from cart", result: result.rows[0] });
     }
     catch (error) {
-        console.error(error);
         res.status(500).send({ error: "Internal server error" });
-        console.log(error);
     }
 });
 exports.DeleteCart = DeleteCart;
@@ -67,7 +61,6 @@ const DeleteItemCheckOut = (req, res) => __awaiter(void 0, void 0, void 0, funct
         res.status(200).send({ message: "Deleted from cart", result: result.rows });
     }
     catch (error) {
-        console.error(error);
         res.status(500).send({ error: "Internal server error" });
     }
 });

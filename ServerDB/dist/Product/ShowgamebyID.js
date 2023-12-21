@@ -43,7 +43,6 @@ const getGameByID = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
       LEFT JOIN category ON product_cate.Category_Id = category.Category_Id
       LEFT JOIN imageset on imageset.Product_Id = Product.Product_Id;`;
         const result = yield client.query(query);
-        // Map SQL result to NoSQL-like structure
         const mappedResult = result[0].map((item) => ({
             _id: item.Product_Id,
             name: item.name,
@@ -74,11 +73,8 @@ const getGameByID = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             },
         }));
         res.status(200).send(mappedResult);
-        const firstImageURL = result[0][0].image[1];
-        console.log(firstImageURL);
     }
     catch (err) {
-        console.log(err);
         res.status(500).json({ message: 'Something went wrong' });
     }
 });

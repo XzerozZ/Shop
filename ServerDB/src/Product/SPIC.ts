@@ -18,7 +18,6 @@ export const getproductinCart = async (req: Request, res: Response) => {
           }));
         res.status(200).send(matching);
     } catch (error) {
-        console.error(error);
-        res.status(500).send({ error: "Internal server error" });
+      res.status(500).send({ error: "Internal server error" });
     }
 };

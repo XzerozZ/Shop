@@ -44,7 +44,7 @@ const showtrans = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(200).send(trans);
     }
     catch (error) {
-        console.log(error);
+        res.status(500).send({ error: "Internal server error" });
     }
 });
 exports.showtrans = showtrans;
